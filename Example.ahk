@@ -35,4 +35,9 @@ class Tests
     {
         throw "Error!"
     }
+
+    Wait()
+    {
+        Sleep, 3000
+    }
 }
