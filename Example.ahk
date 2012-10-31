@@ -1,17 +1,17 @@
 #NoEnv
 
-#Include Atest.ahk
+#Include Yunit.ahk
 
 #Warn All
 #Warn LocalSameAsGlobal, Off
 
-Atest.ShowWindow() ;wip
-Gui, Atest:Default
+Yunit.ShowWindow() ;wip
+Gui, Yunit:Default
 
-Atest.Window := True
-Atest.Stdout := True
+Yunit.Window := True
+Yunit.Stdout := True
 
-Atest.Test(Tests)
+Yunit.Test(Tests)
 Return
 
 class Tests

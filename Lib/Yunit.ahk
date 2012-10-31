@@ -48,7 +48,6 @@ class Yunit
     Test(Tests,hNode = 0,State = "")
     {
         static TestPrefix := "Test_"
-        static CategoryPrefix := "Category_"
 
         If !IsObject(State)
         {
@@ -92,14 +91,11 @@ class Yunit
             }
             Else If IsObject(Value) ;possible category found
             {
-                If RegExMatch(Key,"iS)" . CategoryPrefix . "\K[\w_]+",CategoryName) ;category found
+                hChildNode := TV_Add(Key,hNode,"Icon2 Expand Bold Sort")
+                If !UnitTest.Test(Value,hChildNode,State) ;test category
                 {
-                    hChildNode := TV_Add(CategoryName,hNode,"Icon2 Expand Bold Sort")
-                    If !UnitTest.Test(Value,hChildNode,State) ;test category
-                    {
-                        CurrentStatus := False
-                        TV_Modify(hChildNode,"Icon1")
-                    }
+                    CurrentStatus := False
+                    TV_Modify(hChildNode,"Icon1")
                 }
             }
         }
