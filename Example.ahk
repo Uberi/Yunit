@@ -1,6 +1,6 @@
 #NoEnv
 
-#Include Yunit.ahk
+#Include <Yunit>
 
 #Warn All
 #Warn LocalSameAsGlobal, Off
@@ -16,22 +16,22 @@ Return
 
 class Tests
 {
-    Test_Success()
+    Success()
     {
         
     }
 
-    Test_Success_Message()
+    Success_Message()
     {
         Return, "Success!"
     }
 
-    Test_Error()
+    Error()
     {
         throw ""
     }
 
-    Test_Error_Message()
+    Error_Message()
     {
         throw "Error!"
     }

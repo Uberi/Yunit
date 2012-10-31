@@ -6,7 +6,7 @@ class Yunit
     {
         global YunitWindowTitle, YunitWindowEntries
         Gui, Yunit:Font, s16, Arial
-        Gui, Yunit:Add, Text, x0 y0 h30 YunitWindowTitle Center, Test Results:
+        Gui, Yunit:Add, Text, x0 y0 h30 vYunitWindowTitle Center, Test Results:
 
         hImageList := IL_Create()
         IL_Add(hImageList,"shell32.dll",78) ;yellow triangle with exclamation mark
@@ -47,8 +47,6 @@ class Yunit
 
     Test(Tests,hNode = 0,State = "")
     {
-        static TestPrefix := "Test_"
-
         If !IsObject(State)
         {
             State := Object()
@@ -61,33 +59,30 @@ class Yunit
         {
             If IsFunc(Value) ;possible test found
             {
-                If RegExMatch(Key,"iS)" . TestPrefix . "\K[\w_]+",TestName) ;test found
+                ;run the test
+                Passed := True
+                ;try Information := Value() ;wip
+                try Information := Object("Value",Value).Value()
+                catch e
                 {
-                    ;run the test
-                    Passed := True
-                    ;try Information := Value() ;wip
-                    try Information := Object("Value",Value).Value()
-                    catch e
-                    {
-                        CurrentStatus := False
-                        Passed := False
-                        Information := e
-                    }
-
-                    ;update the interface
-                    this.UpdateWindow(TestName,Passed,Information,hNode)
-                    If Passed ;test passed
-                        State.Passed ++
-                    Else ;test failed
-                        State.Failed ++
-
-                    ;update the status bar
-                    If State.Failed ;tests failed
-                        SB_SetIcon("shell32.dll",78) ;yellow triangle with exclamation mark
-                    Else ;all tests passed
-                        SB_SetIcon("shell32.dll",138) ;green circle with arrow facing right
-                    SB_SetText(State.Passed . " of " . (State.Passed + State.Failed) . " tests passed.")
+                    CurrentStatus := False
+                    Passed := False
+                    Information := e
                 }
+
+                ;update the interface
+                this.UpdateWindow(Key,Passed,Information,hNode)
+                If Passed ;test passed
+                    State.Passed ++
+                Else ;test failed
+                    State.Failed ++
+
+                ;update the status bar
+                If State.Failed ;tests failed
+                    SB_SetIcon("shell32.dll",78) ;yellow triangle with exclamation mark
+                Else ;all tests passed
+                    SB_SetIcon("shell32.dll",138) ;green circle with arrow facing right
+                SB_SetText(State.Passed . " of " . (State.Passed + State.Failed) . " tests passed.")
             }
             Else If IsObject(Value) ;possible category found
             {
