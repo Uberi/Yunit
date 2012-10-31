@@ -1,35 +1,35 @@
 #NoEnv
 
-class Atest
+class Yunit
 {
     ShowWindow()
     {
-        global AtestWindowTitle, AtestWindowEntries
-        Gui, Atest:Font, s16, Arial
-        Gui, Atest:Add, Text, x0 y0 h30 vAtestWindowTitle Center, Test Results:
+        global YunitWindowTitle, YunitWindowEntries
+        Gui, Yunit:Font, s16, Arial
+        Gui, Yunit:Add, Text, x0 y0 h30 YunitWindowTitle Center, Test Results:
 
         hImageList := IL_Create()
         IL_Add(hImageList,"shell32.dll",78) ;yellow triangle with exclamation mark
         IL_Add(hImageList,"shell32.dll",138) ;green circle with arrow facing right
         IL_Add(hImageList,"shell32.dll",135) ;two sheets of paper
-        Gui, Atest:Font, s10
-        Gui, Atest:Add, TreeView, x10 y30 vAtestWindowEntries ImageList%hImageList%
+        Gui, Yunit:Font, s10
+        Gui, Yunit:Add, TreeView, x10 y30 vYunitWindowEntries ImageList%hImageList%
 
-        Gui, Atest:Font, s8
-        Gui, Atest:Add, StatusBar
-        Gui, Atest:+Resize +MinSize320x200
-        Gui, Atest:Show, w500 h400, Unit Test
-        Gui, Atest:+LastFound
+        Gui, Yunit:Font, s8
+        Gui, Yunit:Add, StatusBar
+        Gui, Yunit:+Resize +MinSize320x200
+        Gui, Yunit:Show, w500 h400, Unit Test
+        Gui, Yunit:+LastFound
         Return
 
-        AtestGuiSize:
-        GuiControl, Atest:Move, AtestWindowTitle, w%A_GuiWidth%
-        GuiControl, Atest:Move, AtestWindowEntries, % "w" . (A_GuiWidth - 20) . " h" . (A_GuiHeight - 60)
-        Gui, Atest:+LastFound
+        YunitGuiSize:
+        GuiControl, Yunit:Move, YunitWindowTitle, w%A_GuiWidth%
+        GuiControl, Yunit:Move, YunitWindowEntries, % "w" . (A_GuiWidth - 20) . " h" . (A_GuiHeight - 60)
+        Gui, Yunit:+LastFound
         WinSet, Redraw
         Return
 
-        AtestGuiClose:
+        YunitGuiClose:
         ExitApp
     }
 
