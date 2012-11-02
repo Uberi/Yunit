@@ -2,45 +2,63 @@
 
 ; Yunit.Test(class1, class2, ...)
 class Yunit {
+    __New() {
+        FileDelete, Yunit.log
+    }
+    
     Test(classes*) { ; static method
         instance := new this()
         instance.results := {}
-        for k,class in classes {
-            obj := {}
-            instance.results[class.__class] := obj
-            instance.TestClass(obj, class)
+        instance.classes := classes
+        while A_Index <= classes.MaxIndex() {
+            cls := classes[A_Index]
+            instance.current := A_Index
+            instance.results[cls.__class] := obj := {}
+            instance.TestClass(obj, cls)
         }
     }
     
     Update(category, test, result) {
-        FileAppend, Yunit.log, %category%.%test% = %result%`n
+        if IsObject(result) {
+            details := ", At line #" result.line " " result.message
+            result := "FAIL"
+        }
+        else
+            result := "pass"
+        FileAppend, %result%: %category%.%test%%details%`n, Yunit.log
     }
     
-    TestClass(results, class) {
-        environment := new class() ; calls __New
-        for k,v in class {
+    TestClass(results, cls) {
+        environment := new cls() ; calls __New
+        for k,v in cls {
             if IsObject(v) && IsFunc(v) { ;test
-                if ObjHasKey(environment,"Begin") 
-                && IsFunc(environment.Begin)
+                if k in Begin,End
+                    continue
+                if ObjHasKey(cls,"Begin") 
+                && IsFunc(cls.Begin)
                     environment.Begin()
                 try  {
-                    environment.%v%()
+                    v.(environment)
                     results[k] := 0
                 }
                 catch error {
                     results[k] := error
                 }
-                this.Update(class.__class, k, results[k])
-                if ObjHasKey(environment,"End")
-                && IsFunc(environment.End)
+                this.Update(cls.__class, k, results[k])
+                if ObjHasKey(cls,"End")
+                && IsFunc(cls.End)
                     environment.End()
             }
             else if IsObject(v)
-            && ObjHasKey(v, "class") ;category
-                this.classes.insert(class) 
-                ;todo: should insert directly after this class
+            && ObjHasKey(v, "__class") ;category
+                this.classes.Insert(++this.current, v)
         }
         environment := "" ; force call to __Delete immideately
+    }
+    
+    assert(expr, message = "FAIL") {
+        if (!expr)
+            throw Exception(message, -1)
     }
 }
 

@@ -1,30 +1,48 @@
-Yunit.TestGui(SomeTestSuiteClass, SomeOtherSuiteClass)
+#Include Lib\Yunit2.ahk
 
-class SomeTestSuiteClass {
-    __New() {
+Yunit.Test(NumberTestSuite)
+; YunitGui.Test(NumberTestSuite)
+
+class NumberTestSuite {
+    Begin() {
+        this.x := 123
+        this.y := 456
     }
-    Test1() {
+    Test_Sum() {
+        Yunit.assert(this.x + this.y == 579)
     }
-    Test2() {
+    Test_Division() {
+        Yunit.assert(this.x / this.y < 1)
+        Yunit.assert(this.x / this.y > 0.25)
     }
-    __Delete() {
+    Test_Multiplication() {
+        Yunit.assert(this.x * this.y == 56088)
     }
-    class SomeCategory {
-        __New() {
-            this.x := 123
+    End() {
+        this.remove("x")
+        this.remove("y")
+    }
+    class Negatives {
+        Begin() {
+            this.x := -123
             this.y := 456
         }
-        Test() {
-            Yunit.assert(this.x+this.y == 579)
+        Test_Sum() {
+            Yunit.assert(this.x + this.y == 333)
         }
-        class NestedCategory { ; categories can be nested
-            __New() {
-                this.x := 123
-                this.y := 456
-            }
-            Test1() {
-                Yunit.assert(this.x/this.y < 1) ; like this
-            }
+        Test_Division() {
+            Yunit.assert(this.x / this.y > -1)
+            Yunit.assert(this.x / this.y < -0.25)
+        }
+        Test_Multiplication() {
+            Yunit.assert(this.x * this.y == -56088)
+        }
+        Test_Fails() {
+            Yunit.assert(this.x - this.y == 0, "oops!")
+        }
+        End() {
+            this.remove("x")
+            this.remove("y")
         }
     }
 }
