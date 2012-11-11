@@ -1,4 +1,4 @@
-#Include <Yunit2>
+#Include <Yunit>
 
 Yunit.Test(NumberTestSuite)
 ; YunitGui.Test(NumberTestSuite)
