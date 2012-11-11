@@ -1,4 +1,4 @@
-#Include Lib\Yunit2.ahk
+#Include <Yunit2>
 
 Yunit.Test(NumberTestSuite)
 ; YunitGui.Test(NumberTestSuite)
