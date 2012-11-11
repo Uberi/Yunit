@@ -2,11 +2,13 @@
 
 ; Yunit.Test(class1, class2, ...)
 class Yunit {
-    Test(classes*) { ; static method
+    Test(classes*) ; static method
+    {
         instance := new this()
         instance.results := {}
         instance.classes := classes
-        while A_Index <= classes.MaxIndex() {
+        while A_Index <= classes.MaxIndex()
+        {
             cls := classes[A_Index]
             instance.current := A_Index
             instance.results[cls.__class] := obj := {}
@@ -14,8 +16,10 @@ class Yunit {
         }
     }
     
-    Update(category, test, result) {
-        if IsObject(result) {
+    Update(category, test, result)
+    {
+        if IsObject(result)
+        {
             details := ", At line #" result.line " " result.message
             result := "FAIL"
         }
@@ -24,20 +28,25 @@ class Yunit {
         FileAppend, %result%: %category%.%test%%details%`n, *
     }
     
-    TestClass(results, cls) {
+    TestClass(results, cls)
+    {
         environment := new cls() ; calls __New
-        for k,v in cls {
-            if IsObject(v) && IsFunc(v) { ;test
+        for k,v in cls
+        {
+            if IsObject(v) && IsFunc(v) ;test
+            {
                 if k in Begin,End
                     continue
                 if ObjHasKey(cls,"Begin") 
                 && IsFunc(cls.Begin)
                     environment.Begin()
-                try  {
+                try
+                {
                     v.(environment)
                     results[k] := 0
                 }
-                catch error {
+                catch error
+                {
                     results[k] := error
                 }
                 this.Update(cls.__class, k, results[k])
@@ -52,19 +61,23 @@ class Yunit {
         environment := "" ; force call to __Delete immideately
     }
     
-    assert(expr, message = "FAIL") {
+    assert(expr, message = "FAIL")
+    {
         if (!expr)
             throw Exception(message, -1)
     }
 }
 
 ; YunitGui.Test(class1, class2, ...)
-class YunitGui extends Yunit { 
-    __New() {
+class YunitGui extends Yunit
+{ 
+    __New()
+    {
         ; create gui here
     }
     
-    Update(category, test, result) { ; overload update function
+    Update(category, test, result) ; overload update function
+    {
         ; update gui here
     }
 }

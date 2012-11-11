@@ -3,44 +3,57 @@
 Yunit.Test(NumberTestSuite)
 ; YunitGui.Test(NumberTestSuite)
 
-class NumberTestSuite {
-    Begin() {
+class NumberTestSuite
+{
+    Begin()
+    {
         this.x := 123
         this.y := 456
     }
-    Test_Sum() {
+    Test_Sum()
+    {
         Yunit.assert(this.x + this.y == 579)
     }
-    Test_Division() {
+    Test_Division()
+    {
         Yunit.assert(this.x / this.y < 1)
         Yunit.assert(this.x / this.y > 0.25)
     }
-    Test_Multiplication() {
+    Test_Multiplication()
+    {
         Yunit.assert(this.x * this.y == 56088)
     }
-    End() {
+    End()
+    {
         this.remove("x")
         this.remove("y")
     }
-    class Negatives {
-        Begin() {
+    class Negatives
+    {
+        Begin()
+        {
             this.x := -123
             this.y := 456
         }
-        Test_Sum() {
+        Test_Sum()
+        {
             Yunit.assert(this.x + this.y == 333)
         }
-        Test_Division() {
+        Test_Division()
+        {
             Yunit.assert(this.x / this.y > -1)
             Yunit.assert(this.x / this.y < -0.25)
         }
-        Test_Multiplication() {
+        Test_Multiplication()
+        {
             Yunit.assert(this.x * this.y == -56088)
         }
-        Test_Fails() {
+        Test_Fails()
+        {
             Yunit.assert(this.x - this.y == 0, "oops!")
         }
-        End() {
+        End()
+        {
             this.remove("x")
             this.remove("y")
         }
