@@ -2,10 +2,6 @@
 
 ; Yunit.Test(class1, class2, ...)
 class Yunit {
-    __New() {
-        FileDelete, Yunit.log
-    }
-    
     Test(classes*) { ; static method
         instance := new this()
         instance.results := {}
