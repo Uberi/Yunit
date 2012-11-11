@@ -25,7 +25,7 @@ class Yunit {
         }
         else
             result := "pass"
-        FileAppend, %result%: %category%.%test%%details%`n, Yunit.log
+        FileAppend, %result%: %category%.%test%%details%`n, *
     }
     
     TestClass(results, cls) {
