@@ -1,43 +1,48 @@
-#NoEnv
+#Include Lib\Yunit2.ahk
 
-#Include <Yunit>
+Yunit.Test(NumberTestSuite)
+; YunitGui.Test(NumberTestSuite)
 
-#Warn All
-#Warn LocalSameAsGlobal, Off
-
-Yunit.ShowWindow() ;wip
-Gui, Yunit:Default
-
-Yunit.Window := True
-Yunit.Stdout := True
-
-Yunit.Test(Tests)
-Return
-
-class Tests
-{
-    Success()
-    {
-        
+class NumberTestSuite {
+    Begin() {
+        this.x := 123
+        this.y := 456
     }
-
-    Success_Message()
-    {
-        Return, "Success!"
+    Test_Sum() {
+        Yunit.assert(this.x + this.y == 579)
     }
-
-    Error()
-    {
-        throw ""
+    Test_Division() {
+        Yunit.assert(this.x / this.y < 1)
+        Yunit.assert(this.x / this.y > 0.25)
     }
-
-    Error_Message()
-    {
-        throw "Error!"
+    Test_Multiplication() {
+        Yunit.assert(this.x * this.y == 56088)
     }
-
-    Wait()
-    {
-        Sleep, 3000
+    End() {
+        this.remove("x")
+        this.remove("y")
+    }
+    class Negatives {
+        Begin() {
+            this.x := -123
+            this.y := 456
+        }
+        Test_Sum() {
+            Yunit.assert(this.x + this.y == 333)
+        }
+        Test_Division() {
+            Yunit.assert(this.x / this.y > -1)
+            Yunit.assert(this.x / this.y < -0.25)
+        }
+        Test_Multiplication() {
+            Yunit.assert(this.x * this.y == -56088)
+        }
+        Test_Fails() {
+            Yunit.assert(this.x - this.y == 0, "oops!")
+        }
+        End() {
+            this.remove("x")
+            this.remove("y")
+        }
     }
 }

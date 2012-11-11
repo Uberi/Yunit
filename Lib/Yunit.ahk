@@ -1,70 +1,74 @@
 #NoEnv
 
-class Yunit
-{
-    class Outputs
-    {
-        #Include Window.ahk
+; Yunit.Test(class1, class2, ...)
+class Yunit {
+    __New() {
+        FileDelete, Yunit.log
     }
-
-    static _ := Yunit.Initialize()
-
-    Initialize()
-    {
-        For Name, Output In Yunit.Outputs
-            Output.Initialize()
+    
+    Test(classes*) { ; static method
+        instance := new this()
+        instance.results := {}
+        instance.classes := classes
+        while A_Index <= classes.MaxIndex() {
+            cls := classes[A_Index]
+            instance.current := A_Index
+            instance.results[cls.__class] := obj := {}
+            instance.TestClass(obj, cls)
+        }
     }
-
-    Test(Tests,hNode = 0,State = "")
-    {
-        If !IsObject(State)
-        {
-            State := Object()
-            State.Passed := 0
-            State.Failed := 0
+    
+    Update(category, test, result) {
+        if IsObject(result) {
+            details := ", At line #" result.line " " result.message
+            result := "FAIL"
         }
-
-        CurrentStatus := True
-        For Key, Value In Tests
-        {
-            If IsFunc(Value) ;possible test found
-            {
-                ;run the test
-                Passed := True
-                ;try Information := Value() ;wip
-                try Information := Object("Value",Value).Value()
-                catch e
-                {
-                    CurrentStatus := False
-                    Passed := False
-                    Information := e
+        else
+            result := "pass"
+        FileAppend, %result%: %category%.%test%%details%`n, Yunit.log
+    }
+    
+    TestClass(results, cls) {
+        environment := new cls() ; calls __New
+        for k,v in cls {
+            if IsObject(v) && IsFunc(v) { ;test
+                if k in Begin,End
+                    continue
+                if ObjHasKey(cls,"Begin") 
+                && IsFunc(cls.Begin)
+                    environment.Begin()
+                try  {
+                    v.(environment)
+                    results[k] := 0
                 }
-
-                ;update the interface
-                For Name, Output In this.Outputs
-                    Output.Update(Key,Passed,Information,hNode) ;wip: remove hNode
-                If Passed ;test passed
-                    State.Passed ++
-                Else ;test failed
-                    State.Failed ++
-
-                ;update the status bar
-                If State.Failed ;tests failed
-                    SB_SetIcon("shell32.dll",78) ;yellow triangle with exclamation mark
-                Else ;all tests passed
-                    SB_SetIcon("shell32.dll",138) ;green circle with arrow facing right
-                SB_SetText(State.Passed . " of " . (State.Passed + State.Failed) . " tests passed.")
-            }
-            Else If IsObject(Value) ;possible category found
-            {
-                hChildNode := TV_Add(Key,hNode,"Icon2 Expand Bold Sort")
-                If !UnitTest.Test(Value,hChildNode,State) ;test category
-                {
-                    CurrentStatus := False
-                    TV_Modify(hChildNode,"Icon1")
+                catch error {
+                    results[k] := error
                 }
+                this.Update(cls.__class, k, results[k])
+                if ObjHasKey(cls,"End")
+                && IsFunc(cls.End)
+                    environment.End()
             }
+            else if IsObject(v)
+            && ObjHasKey(v, "__class") ;category
+                this.classes.Insert(++this.current, v)
         }
-        Return, CurrentStatus
+        environment := "" ; force call to __Delete immideately
+    }
+    
+    assert(expr, message = "FAIL") {
+        if (!expr)
+            throw Exception(message, -1)
+    }
+}
+
+; YunitGui.Test(class1, class2, ...)
+class YunitGui extends Yunit { 
+    __New() {
+        ; create gui here
+    }
+    
+    Update(category, test, result) { ; overload update function
+        ; update gui here
     }
 }
