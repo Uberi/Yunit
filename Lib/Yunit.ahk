@@ -68,6 +68,8 @@ class Yunit {
     }
 }
 
+/* Example secondary implementation.
+
 ; YunitGui.Test(class1, class2, ...)
 class YunitGui extends Yunit
 { 
@@ -80,4 +82,6 @@ class YunitGui extends Yunit
     {
         ; update gui here
     }
-}
+
+    }
+*/
