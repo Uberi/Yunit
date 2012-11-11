@@ -1,4 +1,4 @@
-class Window
+class YunitWindow
 {
     Initialize()
     {
