@@ -48,6 +48,7 @@ class YunitWindow extends Yunit
         }
         Else
             TV_Add(TestName,Parent,"Icon2 Sort")
+        TV_Modify(Parent, "Expand")
     }
     
     AddCategories(Categories)
