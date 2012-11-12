@@ -70,18 +70,7 @@ class Yunit {
             throw Exception(message, -1)
     }
     
-    class Module
-    {
-        __New()
-        {
-        }
-        
-        Update(Category, Test, Result)
-        {
-        }
-    }
-    
-    class StdOut extends Yunit.Module
+    class StdOut
     {
         Update(category, test, result)
         {
