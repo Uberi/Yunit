@@ -45,7 +45,14 @@ class YunitWindow extends Yunit
         {
             hChildNode := TV_Add(TestName,Parent,"Icon1 Sort")
             TV_Add("Line #" result.line ": " result.message,hChildNode,"Icon3")
-            TV_Modify(Parent, "Icon1")
+            key := category
+            pos := 1
+            while (pos)
+            {
+                TV_Modify(this.Categories[key], "Icon1")
+                pos := InStr(key, ".", false, 0, 1)
+                key := SubStr(key, 1, pos-1)
+            }
         }
         Else
             TV_Add(TestName,Parent,"Icon2 Sort")
