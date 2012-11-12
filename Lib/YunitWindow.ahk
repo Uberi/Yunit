@@ -43,7 +43,7 @@ class YunitWindow extends Yunit
         Parent := this.Categories[Category]
         If IsObject(result)
         {
-            hChildNode := TV_Add(TestName,Parent,"Icon1 Sort")
+            hChildNode := TV_Add(TestName,Parent,"Icon1")
             TV_Add("Line #" result.line ": " result.message,hChildNode,"Icon3")
             key := category
             pos := 1
@@ -55,7 +55,7 @@ class YunitWindow extends Yunit
             }
         }
         Else
-            TV_Add(TestName,Parent,"Icon2 Sort")
+            TV_Add(TestName,Parent,"Icon2")
         TV_Modify(Parent, "Expand")
     }
     
