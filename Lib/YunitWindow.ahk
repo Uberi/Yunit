@@ -45,6 +45,7 @@ class YunitWindow extends Yunit
         {
             hChildNode := TV_Add(TestName,Parent,"Icon1 Sort")
             TV_Add("Line #" result.line ": " result.message,hChildNode,"Icon3")
+            TV_Modify(Parent, "Icon1")
         }
         Else
             TV_Add(TestName,Parent,"Icon2 Sort")
@@ -59,7 +60,7 @@ class YunitWindow extends Yunit
         {
             Category .= (Category == "" ? "" : ".") A_LoopField
             If (!this.Categories.HasKey(Category))
-                this.Categories[Category] := TV_Add(A_LoopField, Parent, "Icon3")
+                this.Categories[Category] := TV_Add(A_LoopField, Parent, "Icon2")
             Parent := this.Categories[Category]
         }
     }
