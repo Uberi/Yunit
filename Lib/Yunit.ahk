@@ -2,30 +2,33 @@
 
 ; Yunit.Test(class1, class2, ...)
 class Yunit {
+    static Modules := [Yunit.StdOut]
+    
+    Use(Modules*)
+    {
+        return {base: Yunit, Modules: Modules}
+    }
+    
     Test(classes*) ; static method
     {
         instance := new this()
-        instance.results := {}
+        instance.results := results := {}
         instance.classes := classes
+        for k,module in instance.Modules
+            module.__new.(instance)
         while A_Index <= classes.MaxIndex()
         {
             cls := classes[A_Index]
             instance.current := A_Index
-            instance.results[cls.__class] := obj := {}
+            results[cls.__class] := obj := {}
             instance.TestClass(obj, cls)
         }
     }
     
-    Update(category, test, result)
+    Update(Category, Test, Result)
     {
-        if IsObject(result)
-        {
-            details := ", At line #" result.line " " result.message
-            result := "FAIL"
-        }
-        else
-            result := "pass"
-        FileAppend, %result%: %category%.%test%%details%`n, *
+        for k,module in this.Modules
+            module.Update.(this, Category, Test, Result)
     }
     
     TestClass(results, cls)
@@ -65,6 +68,32 @@ class Yunit {
     {
         if (!expr)
             throw Exception(message, -1)
+    }
+    
+    class Module
+    {
+        __New()
+        {
+        }
+        
+        Update(Category, Test, Result)
+        {
+        }
+    }
+    
+    class StdOut extends Yunit.Module
+    {
+        Update(category, test, result)
+        {
+            if IsObject(result)
+            {
+                details := ", At line #" result.line " " result.message
+                result := "FAIL"
+            }
+            else
+                result := "pass"
+            FileAppend, %result%: %category%.%test%%details%`n, *
+        }
     }
 }
 
