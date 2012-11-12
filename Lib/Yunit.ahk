@@ -12,15 +12,16 @@ class Yunit {
     Test(classes*) ; static method
     {
         instance := new this()
-        instance.results := results := {}
+        instance.results := {}
         instance.classes := classes
-        for k,module in instance.Modules
-            module.__new.(instance)
+        instance.Modules := []
+        for k,module in instance.base.Modules
+            instance.Modules[k] := new module(instance)
         while A_Index <= classes.MaxIndex()
         {
             cls := classes[A_Index]
             instance.current := A_Index
-            results[cls.__class] := obj := {}
+            instance.results[cls.__class] := obj := {}
             instance.TestClass(obj, cls)
         }
     }
@@ -28,7 +29,7 @@ class Yunit {
     Update(Category, Test, Result)
     {
         for k,module in this.Modules
-            module.Update.(this, Category, Test, Result)
+            module.Update(Category, Test, Result)
     }
     
     TestClass(results, cls)
