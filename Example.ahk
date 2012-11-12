@@ -1,7 +1,6 @@
-#Include <Yunit>
+#Include <YunitWindow>
 
-Yunit.Test(NumberTestSuite)
-; YunitGui.Test(NumberTestSuite)
+YunitWindow.Test(NumberTestSuite)
 
 class NumberTestSuite
 {
