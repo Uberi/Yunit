@@ -12,6 +12,8 @@ class YunitWindow extends Yunit
         IL_Add(hImageList,"shell32.dll",78) ;yellow triangle with exclamation mark
         IL_Add(hImageList,"shell32.dll",138) ;green circle with arrow facing right
         IL_Add(hImageList,"shell32.dll",135) ;two sheets of paper
+        this.icons := {fail: "Icon1", pass: "Icon2", detail: "Icon3"}
+        
         Gui, Yunit:Font, s10
         Gui, Yunit:Add, TreeView, x10 y30 vYunitWindowEntries ImageList%hImageList%
         
@@ -43,19 +45,19 @@ class YunitWindow extends Yunit
         Parent := this.Categories[Category]
         If IsObject(result)
         {
-            hChildNode := TV_Add(TestName,Parent,"Icon1")
-            TV_Add("Line #" result.line ": " result.message,hChildNode,"Icon3")
+            hChildNode := TV_Add(TestName,Parent,this.icons.fail)
+            TV_Add("Line #" result.line ": " result.message,hChildNode,this.icons.detail)
             key := category
             pos := 1
             while (pos)
             {
-                TV_Modify(this.Categories[key], "Icon1")
+                TV_Modify(this.Categories[key], this.icons.fail)
                 pos := InStr(key, ".", false, 0, 1)
                 key := SubStr(key, 1, pos-1)
             }
         }
         Else
-            TV_Add(TestName,Parent,"Icon2")
+            TV_Add(TestName,Parent,this.icons.pass)
         TV_Modify(Parent, "Expand")
     }
     
@@ -67,7 +69,7 @@ class YunitWindow extends Yunit
         {
             Category .= (Category == "" ? "" : ".") A_LoopField
             If (!this.Categories.HasKey(Category))
-                this.Categories[Category] := TV_Add(A_LoopField, Parent, "Icon2")
+                this.Categories[Category] := TV_Add(A_LoopField, Parent, this.icons.pass)
             Parent := this.Categories[Category]
         }
     }
