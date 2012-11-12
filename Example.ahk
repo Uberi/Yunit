@@ -1,6 +1,6 @@
 #Include <YunitWindow>
 
-YunitWindow.Test(NumberTestSuite)
+YunitWindow.Test(NumberTestSuite, StringTestSuite)
 
 class NumberTestSuite
 {
@@ -56,5 +56,31 @@ class NumberTestSuite
             this.remove("x")
             this.remove("y")
         }
+    }
+}
+
+class StringTestSuite
+{
+    Begin()
+    {
+        this.a := "abc"
+        this.b := "cdef"
+    }
+    Test_Concat()
+    {
+        Yunit.assert(this.a . this.b == "abccdef")
+    }
+    Test_Substring()
+    {
+        Yunit.assert(SubStr(this.b, 2, 2) == "de")
+    }
+    Test_InStr()
+    {
+        Yunit.assert(InStr(this.a, "c") == 3)
+    }
+    End()
+    {
+        this.remove("a")
+        this.remove("b")
     }
 }
