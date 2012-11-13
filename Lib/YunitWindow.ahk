@@ -1,8 +1,6 @@
-#Include Yunit.ahk
-
-class YunitWindow extends Yunit
+class YunitWindow
 {
-    __new()
+    __new(instance)
     {
         global YunitWindowTitle, YunitWindowEntries
         Gui, Yunit:Font, s16, Arial
