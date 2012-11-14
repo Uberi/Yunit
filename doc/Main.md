@@ -9,6 +9,10 @@ Yunit is designed to aid in the following tasks:
 * Basic result reporting and collation.
 * Test management.
 
+Example
+-------
+See `doc/Example.ahk` for a working example script that demonstrates Yunit being used for testing.
+
 Installation
 ------------
 Installation is simply a matter of adding the Yunit folder to the library path of your project.
@@ -32,8 +36,96 @@ In AutoHotkey v1.1, library locations are checked as follows:
 2. User library: %A_MyDocuments%\Lib\
 3. Standard library: %A_AhkPath%\Lib\
 
-Usage
------
-Yunit must be imported to be used:
+Importing
+---------
+Yunit and its modules must be imported to be used:
 
+    #Include <Yunit\Yunit> ;import the basic test routines
+    #Include <Yunit\Window> ;import the window output module
+    #Include <Yunit\Stdout> ;import the stdout output module
+
+Output modules only need to be imported if they are going to be used.
+
+Modules
+-------
+Selecting modules is done using the `Yunit.Use(Modules*)` method, where `Modules*` represents a list of output modules to use:
+
+    Tester := Yunit.Use(YunitStdout, YunitWindow)
+
+The above creates a Yunit tester that uses the YunitStdout and YunitWindow modules.
+
+Multiple output modules are available:
+
+### YunitStdout
+
+    Tester := Yunit.Use(YunitStdout)
+
+This module writes the test results to the standard output.
+
+The results are formatted one per line, each entry being in the following form:
+
+    _Result_: _Category_._TestName_ _Data_
+
+_Result_ - result of the test ("PASS" or "FAIL").
+_Category_ - category or categories that the test is located under, with subcategories separated by dots (Category.Subcategory.OtherCategory).
+_TestName_ - name of the test being run.
+_Data_ - data given by the test, such as specific error messages or benchmark numbers.
+
+### YunitWindow
+
+    Tester := Yunit.Use(YunitStdout)
+
+This module displays the test results in a window with icons showing the status of each test.
+
+The results are shown in the form of a tree control, with each test suite having a top level node, and categories or tests having child ndoes.
+
+Beside each node is an icon:
+
+_Green circle with "play" symbol_ - test passed successfully.
+_Yellow triangle with exclamation mark_ - test failed.
+_Two papers_ - test result/description.
+
+Tests that result in data will have an additional child node that can be expanded to show it.
+
+Tests
+-----
+Tests are written as classes. Class methods are considered as tests; nested classes are considered categories. Classes nested within these nested classes are considered subcategories, and so on:
+
+    class TestSuite
+    {
+        This_Is_A_Test()
+        {
+            ;...
+        }
     
+        class This_Is_A_Category
+        {
+            This_Is_A_Test()
+            {
+                ;...
+            }
+            
+            This_Is_Another_Test()
+            {
+                ;...
+            }
+        }
+    }
+
+The above corresponds to the following test structure:
+
+    TestSuite:
+        This_Is_A_Test
+        This_Is_A_Category:
+            This_Is_A_Test
+            This_Is_Another_Test
+
+The test and category names are determined from their identifiers in the code. Test and category names may be duplicated as long as they are in different categories.
+
+Running Tests
+-------------
+Yunit exposes the test running interface through the `Yunit.Test(TestSuites*)` method, where `TestSuites*` represents one or more test suites:
+
+    Yunit.Test(TestSuite)
+
+This method is synchronous and blocks the current thread until complete. Results will be shown while `Yunit.Test(TestSuites*)` is running.
