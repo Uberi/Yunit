@@ -8,7 +8,7 @@ WIP
 
 License
 -------
-Copyright 2012 Anthony Zhang <azhang9@gmail.com>
+Copyright 2012 Anthony Zhang (Uberi) and Joe Taber (infogulch).
 
 This file is part of Yunit. Source code is available at <https://github.com/Uberi/Yunit>.
 
