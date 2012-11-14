@@ -122,6 +122,24 @@ The above corresponds to the following test structure:
 
 The test and category names are determined from their identifiers in the code. Test and category names may be duplicated as long as they are in different categories.
 
+Testing
+-------
+Individual tests have certain facilities available to them:
+
+    This_Is_A_Test()
+    {
+        Yunit.Assert(1 = 1) ;test passes
+    }
+    
+    This_Is_Another_Test()
+    {
+        Yunit.Assert(1 = 2) ;test fails
+    }
+
+The method `Yunit.Assert(Value, Message)` allows assertions of an expression being true, where `Value` is the value to test and `Message` is the message to display. Calling this method is optional but convenient for testing purposes.
+
+;wip: talk about what happens when you throw an exception, what happens to return values, what arguments are given, etc.
+
 Running Tests
 -------------
 Yunit exposes the test running interface through the `Yunit.Test(TestSuites*)` method, where `TestSuites*` represents one or more test suites:
