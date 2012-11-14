@@ -4,9 +4,17 @@
 class Yunit {
     static Modules := [Yunit.StdOut]
     
+    class Tester extends Yunit
+    {
+        __New(Modules)
+        {
+            this.Modules := Modules
+        }
+    }
+    
     Use(Modules*)
     {
-        return {base: Yunit, Modules: Modules}
+        return new this.Tester(Modules)
     }
     
     Test(classes*) ; static method
@@ -70,23 +78,7 @@ class Yunit {
         if (!expr)
             throw Exception(message, -1)
     }
-    
-    class StdOut
-    {
-        Update(category, test, result)
-        {
-            if IsObject(result)
-            {
-                details := ", At line #" result.line " " result.message
-                result := "FAIL"
-            }
-            else
-                result := "pass"
-            FileAppend, %result%: %category%.%test%%details%`n, *
-        }
-    }
 }
-
 /* Module example.
 
 ; file should be Lib\Yunit\MyModule.ahk
