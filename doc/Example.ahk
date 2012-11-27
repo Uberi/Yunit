@@ -1,7 +1,8 @@
 #Include <Yunit\Yunit>
 #Include <Yunit\Window>
+#Include <Yunit\StdOut>
 
-Yunit.Use(Yunit.StdOut, YunitWindow).Test(NumberTestSuite, StringTestSuite)
+Yunit.Use(YunitStdOut, YunitWindow).Test(NumberTestSuite, StringTestSuite)
 
 class NumberTestSuite
 {
