@@ -79,6 +79,18 @@ class StringTestSuite
     {
         Yunit.assert(InStr(this.a, "c") == 3)
     }
+    Test_ExpectedException_Success()
+    {
+        this.ExpectedException := Exception("SomeCustomException")
+        if SubStr(this.a, 3, 1) == SubStr(this.b, 1, 1)
+            throw Exception("SomeCustomException")
+    }
+    Test_ExpectedException_Fail()
+    {
+        this.ExpectedException := "fubar"
+        Yunit.assert(this.a != this.b)
+        ; no exception thrown!
+    }
     End()
     {
         this.remove("a")
