@@ -1,87 +1,97 @@
 #NoEnv
 
-; Yunit.Test(class1, class2, ...)
-class Yunit {
+class Yunit
+{
     static Modules := [Yunit.StdOut]
-    
-    class Tester extends Yunit
+
+    class Tester extends Yunit ;wip: use Yunit.Test(Classes).Start(YunitStdout, YunitWindow)
     {
         __New(Modules)
         {
             this.Modules := Modules
         }
+
+        Test(Classes*)
+        {
+            this.Results := {}
+            this.Classes := Classes
+            for Index, cls in Classes
+            {
+                this.Current := Index
+                Results := {}
+                this.ClassResults[cls.__Class] := Results ;wip: remove references to __class, since that can be modified, use &obj instead
+                this.TestClass(Results, cls)
+            }
+            return this
+        }
+
+        Update(Category, Test, Result)
+        {
+            for Key, Module in this.Modules
+                Module.Update(Category, Test, Result)
+        }
+
+        TestClass(Results, cls)
+        {
+            Environment := new cls() ; calls __New
+            for Key, Value in cls
+            {
+                if IsObject(Value) && IsFunc(Value) ;current value is a test
+                {
+                    if (Key = "Begin" || Key = "End") ;skip beginning and ending callbacks
+                        continue
+
+                    if ObjHasKey(cls, "Begin") && IsFunc(cls.Begin) ;initialization callback defined
+                        Environment.Begin()
+
+                    Result := 0
+                    try
+                    {
+                        Value.(Environment) ;run the test
+                        if ObjHasKey(Environment, "ExpectedException")
+                            Result := Environment.ExpectedException ;wip: need better way to convey the issue
+                    }
+                    catch Error
+                    {
+                        if !ObjHasKey(Environment, "ExpectedException") ;no exception was expected
+                            Result := Error
+                        else if !this.CompareValues(Environment.ExpectedException, Error) ;received exception was not what was expected
+                            Result := Error
+                    }
+                    ObjRemove(Environment, "ExpectedException") ;remove the value of the expected exception, if defined
+
+                    Results[Key] := Result ;store the result of the test
+                    this.Update(cls.__Class, Key, Result) ;update the output modules
+
+                    if ObjHasKey(cls, "End") && IsFunc(cls.End) ;uninitialization callback defined
+                        Environment.End()
+                }
+                else if IsObject(Value) && ObjHasKey(Value, "__Class") ;current value is a category
+                    this.Classes.Insert(Value) ;store the classes list for later processing ;wip: not sure how this works on nested classes
+            }
+        }
     }
-    
+
     Use(Modules*)
     {
         return new this.Tester(Modules)
     }
-    
-    Test(classes*) ; static method
+
+    Assert(Value, Message = "FAIL")
     {
-        instance := new this()
-        instance.results := {}
-        instance.classes := classes
-        instance.Modules := []
-        for k,module in instance.base.Modules
-            instance.Modules[k] := new module(instance)
-        while A_Index <= classes.MaxIndex()
-        {
-            cls := classes[A_Index]
-            instance.current := A_Index
-            instance.results[cls.__class] := obj := {}
-            instance.TestClass(obj, cls)
-        }
+        if !Value
+            throw Exception(Message, -1)
+        return Value
     }
-    
-    Update(Category, Test, Result)
+
+    ;wip: needs to either be renamed to CompareExceptions or extended to compare exceptions with custom extensions
+    CompareValues(v1, v2)
     {
-        for k,module in this.Modules
-            module.Update(Category, Test, Result)
-    }
-    
-    TestClass(results, cls)
-    {
-        environment := new cls() ; calls __New
-        for k,v in cls
-        {
-            if IsObject(v) && IsFunc(v) ;test
-            {
-                if k in Begin,End
-                    continue
-                if ObjHasKey(cls,"Begin") 
-                && IsFunc(cls.Begin)
-                    environment.Begin()
-                result := 0
-                try
-                {
-                    v.(environment)
-                    if ObjHasKey(environment, "ExpectedException")
-                        throw Exception("ExpectedException")
-                }
-                catch error
-                {
-                    if !ObjHasKey(environment, "ExpectedException")
-                    || !this.CompareValues(environment.ExpectedException, error)
-                        result := error
-                }
-                results[k] := result
-                ObjRemove(environment, "ExpectedException")
-                this.Update(cls.__class, k, results[k])
-                if ObjHasKey(cls,"End")
-                && IsFunc(cls.End)
-                    environment.End()
-            }
-            else if IsObject(v)
-            && ObjHasKey(v, "__class") ;category
-                this.classes.Insert(++this.current, v)
-        }
-    }
-    
-    assert(expr, message = "FAIL")
-    {
-        if (!expr)
-            throw Exception(message, -1)
+        if !IsObject(v1) || !IsObject(v2)
+            return v1 = v2 ;obey StringCaseSense
+        if !ObjHasKey(v1, "Message") || !ObjHasKey(v2, "Message")
+            return False
+        return v1.Message = v2.Message
     }
     
     CompareValues(v1, v2)
