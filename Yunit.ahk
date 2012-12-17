@@ -93,15 +93,6 @@ class Yunit
             return False
         return v1.Message = v2.Message
     }
-    
-    CompareValues(v1, v2)
-    {   ; Support for simple exceptions. May need to be extended in the future.
-        if !IsObject(v1) || !IsObject(v2)
-            return v1 = v2   ; obey StringCaseSense
-        if !ObjHasKey(v1, "Message") || !ObjHasKey(v2, "Message")
-            return False
-        return v1.Message = v2.Message
-    }
 }
 
 /* Module example.
