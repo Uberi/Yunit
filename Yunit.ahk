@@ -93,31 +93,3 @@ class Yunit
         return v1.Message = v2.Message
     }
 }
-
-/* Module example.
-
-; file should be Lib\Yunit\MyModule.ahk
-; included like this: 
-#Include <Yunit\MyModule>
-
-; usage:
-Yunit.Use(YunitMyModule).Test(class1, class2, ...)
-
-class YunitMyModule
-{ 
-    __New(instance)
-    {
-        ; setup code here
-        ; instance is the instance of Yunit
-        ; instance.results is a persistent object that 
-        ;   is updated just before Update() is called
-    }
-    
-    Update(category, test, result)
-    {
-        ; update code here
-        ; called every time a test is finished
-    }
-}
-
-*/
