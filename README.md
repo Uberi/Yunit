@@ -4,7 +4,7 @@ Super simple unit testing framework for [AutoHotkey](http://www.autohotkey.com/)
 
 Usage
 -----
-WIP
+See _doc/Main.md_
 
 License
 -------
