@@ -61,25 +61,29 @@ Output modules only need to be imported if they are going to be used.
 
 Usage
 -----
-Yunit is implemented as a class, conveniently named `Yunit`. This class is static, which basically means you do not need to make a new instance of it to use it.
+Yunit is implemented as a class, conveniently named `Yunit`.
+This class is static, which basically means you do not need to make a new instance of it to use it.
 
-To begin, first we need to select the output modules to use (a list of available modules is documented in the *Modules* section). In other words, where the results of the tests should go.
+To begin, first we need to select the output modules to use (a list of available modules is documented in the *Modules* section).
+In other words, where the results of the tests should go.
 
-This is done using the `Yunit.Use(Modules*)` method, where `Modules*` represents zero or more modules to use. When called, the method returns a `Yunit.Tester` object, which represents the options and settings for a group of tests:
+This is done using the `Yunit.Use(Modules*)` method, where `Modules*` represents zero or more modules to use.
+When called, the method returns a `Yunit.Tester` object, which represents the options and settings for a group of tests:
 
     Tester := Yunit.Use(YunitStdout, YunitWindow)
 
 This code creates a `Yunit.Tester` object that uses the `YunitStdout` and `YunitWindow` modules for output.
 
 Now that the `Yunit.Tester` object has been created, we can run a set of tests against it.
-
-This is done using the `Yunit.Tester.Test(Classes*)` method, where `Classes*` represents zero or more test classes to use (the format is documented in the *Tests* section). When called, the method starts the tests and manages the results:
+This is done using the `Yunit.Tester.Test(Classes*)` method, where `Classes*` represents zero or more test classes to use (the format is documented in the *Tests* section).
+When called, the method starts the tests and manages the results:
 
     Tester.Test(FirstTestSet, SecondTestSet, ThirdTestSet)
 
 This code runs all tests in all three sets.
 
-This method is synchronous and blocks the current thread until complete. Results will be shown while the method is running.
+This method is synchronous and blocks the current thread until complete.
+Results will be shown while the method is running.
 
 Modules
 -------
@@ -93,12 +97,12 @@ This module writes the test results to the standard output.
 
 The results are formatted one per line, each entry being in the following form:
 
-    _Result_: _Category_._TestName_ _Data_
+    Result: Category.TestName Data
 
-_Result_ - result of the test ("PASS" or "FAIL").
-_Category_ - category or categories that the test is located under, with subcategories separated by dots (Category.Subcategory.OtherCategory).
-_TestName_ - name of the test being run.
-_Data_ - data given by the test, such as specific error messages or benchmark numbers.
+* _Result_ - result of the test ("PASS" or "FAIL").
+* _Category_ - category or categories that the test is located under, with subcategories separated by dots (Category.Subcategory.OtherCategory).
+* _TestName_ - name of the test being run.
+* _Data_ - data given by the test, such as specific error messages or benchmark numbers.
 
 ### YunitWindow
 
@@ -106,19 +110,20 @@ _Data_ - data given by the test, such as specific error messages or benchmark nu
 
 This module displays the test results in a window with icons showing the status of each test.
 
-The results are shown in the form of a tree control, with each test suite having a top level node, and categories or tests having child ndoes.
+The results are shown in the form of a tree control, with each test suite having a top level node, and categories or tests having child nodes.
 
 Beside each node is an icon:
 
-_Green circle with "play" symbol_ - test passed successfully.
-_Yellow triangle with exclamation mark_ - test failed.
-_Two papers_ - test result/description.
+* _Green circle with "play" symbol_ - test passed successfully.
+* _Yellow triangle with exclamation mark_ - test failed.
+* _Two papers_ - test result/description.
 
 Tests that result in data will have an additional child node that can be expanded to show it.
 
-Tests
------
-Tests are written as classes. Class methods are considered as tests; nested classes are considered categories. Classes nested within these nested classes are considered subcategories, and so on:
+Test Suites and Categories
+--------------------------
+Test suites are written as classes. Class methods are considered tests; nested classes are considered categories.
+Classes nested within these nested classes are considered subcategories, and so on:
 
     class TestSuite
     {
@@ -151,9 +156,14 @@ The above corresponds to the following test structure:
 
 The test and category names are determined from their identifiers in the code. Test and category names may be duplicated as long as they are in different categories.
 
-Testing
--------
-Individual tests have certain facilities available to them:
+The order in which tests are called is arbitrary.
+
+Writing Tests
+-------------
+A test is a class method that takes no arguments and has no return value.
+For a test to fail it must throw an exception. 
+Any test that returns normally is considered a success. 
+The method `Yunit.Assert(Value, Message)` conveniently throws an exception when `Value` evaluates to false, with an optional `Message` which is displayed if it fails.
 
     This_Is_A_Test()
     {
@@ -162,9 +172,10 @@ Individual tests have certain facilities available to them:
     
     This_Is_Another_Test()
     {
-        Yunit.Assert(1 = 2) ;test fails
+        Yunit.Assert(1 = 2, "Description of the failure") ;test fails
     }
 
-The method `Yunit.Assert(Value, Message)` allows assertions of an expression being true, where `Value` is the value to test and `Message` is the message to display. Calling this method is optional but convenient for testing purposes.
+The special test methods `Begin()` and `End()`, if present, will be called on the instance of the class before and after _each test_, respectively.
+Use this to do setup on the `this` object for each test in a category.
 
-;wip: talk about what happens when you throw an exception, what happens to return values, what arguments are given, etc.
+In addition, the special class methods `__New()` and `__Delete()` are called before testing starts on a category and after it finishes, respectively.
