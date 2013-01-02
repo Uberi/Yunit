@@ -1,17 +1,17 @@
 class YunitStdOut
 {
-    Update(Category, Test, Result) ;wip: this only supports one level of nesting?
+    Update(category, test, result) ;wip: this only supports one level of nesting?
     {
-        if IsObject(Result)
+        if IsObject(result)
         {
-            Details := " at line " Result.Line " " Result.Message
-            Status := "FAIL"
+            details := " at line " result.line " " result.message
+            result := "FAIL"
         }
         else
         {
-            Details := ""
-            Status := "PASS"
+            details := ""
+            result := "PASS"
         }
-        FileAppend, %Status%: %Category%.%Test% %Details%`n, *
+        FileAppend, %result%: %category%.%test% %details%`n, *
     }
 }

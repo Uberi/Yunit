@@ -13,18 +13,6 @@ Example
 -------
 See `doc/Example.ahk` for a working example script that demonstrates Yunit being used for testing.
 
-A basic test setup looks like the following:
-
-    Yunit.Use(YunitStdout).Test(TestSuite)
-    
-    class TestSuite
-    {
-        SomeTest()
-        {
-            return True
-        }
-    }
-
 Installation
 ------------
 Installation is simply a matter of adding the Yunit folder to the library path of your project.
@@ -41,7 +29,6 @@ An example directory structure is shown below:
     |    |    |    ...
     |    README.md
     |    SomeProject.ahk
-    |    ...
 
 In AutoHotkey v1.1, library locations are checked as follows:
 
@@ -59,30 +46,14 @@ Yunit and its modules must be imported to be used:
 
 Output modules only need to be imported if they are going to be used.
 
-Usage
------
-Yunit is implemented as a class, conveniently named `Yunit`. This class is static, which basically means you do not need to make a new instance of it to use it.
-
-To begin, first we need to select the output modules to use (a list of available modules is documented in the *Modules* section). In other words, where the results of the tests should go.
-
-This is done using the `Yunit.Use(Modules*)` method, where `Modules*` represents zero or more modules to use. When called, the method returns a `Yunit.Tester` object, which represents the options and settings for a group of tests:
+Modules
+-------
+Selecting modules is done using the `Yunit.Use(Modules*)` method, where `Modules*` represents a list of output modules to use:
 
     Tester := Yunit.Use(YunitStdout, YunitWindow)
 
-This code creates a `Yunit.Tester` object that uses the `YunitStdout` and `YunitWindow` modules for output.
+The above creates a Yunit tester that uses the YunitStdout and YunitWindow modules.
 
-Now that the `Yunit.Tester` object has been created, we can run a set of tests against it.
-
-This is done using the `Yunit.Tester.Test(Classes*)` method, where `Classes*` represents zero or more test classes to use (the format is documented in the *Tests* section). When called, the method starts the tests and manages the results:
-
-    Tester.Test(FirstTestSet, SecondTestSet, ThirdTestSet)
-
-This code runs all tests in all three sets.
-
-This method is synchronous and blocks the current thread until complete. Results will be shown while the method is running.
-
-Modules
--------
 Multiple output modules are available:
 
 ### YunitStdout
@@ -168,3 +139,11 @@ Individual tests have certain facilities available to them:
 The method `Yunit.Assert(Value, Message)` allows assertions of an expression being true, where `Value` is the value to test and `Message` is the message to display. Calling this method is optional but convenient for testing purposes.
 
 ;wip: talk about what happens when you throw an exception, what happens to return values, what arguments are given, etc.
+
+Running Tests
+-------------
+Yunit exposes the test running interface through the `Yunit.Test(TestSuites*)` method, where `TestSuites*` represents one or more test suites:
+
+    Yunit.Test(TestSuite)
+
+This method is synchronous and blocks the current thread until complete. Results will be shown while `Yunit.Test(TestSuites*)` is running.
