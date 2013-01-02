@@ -1,7 +1,7 @@
 #NoEnv
 
-; Yunit.Test(class1, class2, ...)
-class Yunit {
+class Yunit
+{
     static Modules := [Yunit.StdOut]
     
     class Tester extends Yunit
@@ -78,10 +78,10 @@ class Yunit {
         }
     }
     
-    assert(expr, message = "FAIL")
+    Assert(Value, Message = "FAIL")
     {
-        if (!expr)
-            throw Exception(message, -1)
+        if (!Value)
+            throw Exception(Message, -1)
     }
     
     CompareValues(v1, v2)
