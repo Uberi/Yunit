@@ -47,7 +47,7 @@ class Yunit
         {
             if IsObject(v) && IsFunc(v) ;test
             {
-                if k in Begin,End
+                if (k = "Begin") or (k = "End")
                     continue
                 if ObjHasKey(cls,"Begin") 
                 && IsFunc(cls.Begin)
