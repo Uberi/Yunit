@@ -55,7 +55,7 @@ class Yunit
                 result := 0
                 try
                 {
-                    v.(environment)
+                    %v%(environment)
                     if ObjHasKey(environment, "ExpectedException")
                         throw Exception("ExpectedException")
                 }
