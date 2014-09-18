@@ -28,7 +28,7 @@ class YunitWindow
         GuiControl, Yunit:Move, YunitWindowTitle, w%A_GuiWidth%
         GuiControl, Yunit:Move, YunitWindowEntries, % "w" . (A_GuiWidth - 20) . " h" . (A_GuiHeight - 60)
         Gui, Yunit:+LastFound
-        WinSet, Redraw
+        DllCall("user32.dll\InvalidateRect", "uInt", WinExist(), "uInt", 0, "uInt", 1)
         Return
         
         YunitGuiClose:
