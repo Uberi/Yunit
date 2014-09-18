@@ -78,8 +78,9 @@ class Yunit
         }
     }
     
-    Assert(Value, Message = "FAIL")
+    Assert(Value, params*)
     {
+        Message := (params[1] = "") ? "FAIL" : params[1]
         if (!Value)
             throw Exception(Message, -1)
     }
