@@ -25,7 +25,7 @@ class Yunit
         instance.Modules := []
         for k,module in instance.base.Modules
             instance.Modules[k] := new module(instance)
-        while A_Index <= classes.MaxIndex()
+        while (A_Index <= (A_AhkVersion < "2" ? classes.MaxIndex() : classes.Length()))
         {
             cls := classes[A_Index]
             instance.current := A_Index
