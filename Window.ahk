@@ -50,7 +50,7 @@ class YunitWindow
             while (pos)
             {
                 TV_Modify(this.Categories[key], this.icons.fail)
-                pos := InStr(key, ".", false, 0, 1)
+                pos := InStr(key, ".", false, (A_AhkVersion < "2") ? 0 : -1, 1)
                 key := SubStr(key, 1, pos-1)
             }
         }
