@@ -74,7 +74,12 @@ class Yunit
             }
             else if IsObject(v)
             && ObjHasKey(v, "__class") ;category
-                this.classes.Insert(++this.current, v)
+            {
+                if (A_AhkVersion < "2")
+                   this.classes.Insert(++this.current, v)
+                else
+                   this.classes.InsertAt(++this.current, v)
+            }
         }
     }
     
