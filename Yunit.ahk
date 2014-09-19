@@ -19,7 +19,7 @@ class Yunit
     
     Test(classes*) ; static method
     {
-        instance := new this()
+        instance := new this("")
         instance.results := {}
         instance.classes := classes
         instance.Modules := []
