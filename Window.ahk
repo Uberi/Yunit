@@ -63,11 +63,12 @@ class YunitWindow
     {
         Parent := 0
         Category := ""
-        Loop, Parse, Categories, .
+        Categories_Array := StrSplit(Categories, ".")
+        for k,v in Categories_Array
         {
-            Category .= (Category == "" ? "" : ".") A_LoopField
+            Category .= (Category == "" ? "" : ".") v
             If (!this.Categories.HasKey(Category))
-                this.Categories[Category] := TV_Add(A_LoopField, Parent, this.icons.pass)
+                this.Categories[Category] := TV_Add(v, Parent, this.icons.pass)
             Parent := this.Categories[Category]
         }
     }
