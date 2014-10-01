@@ -7,10 +7,11 @@ class YunitWindow
         Gui, Yunit:Add, Text, x0 y0 h30 vYunitWindowTitle Center, Test Results
         
         hImageList := IL_Create()
+        IL_Add(hImageList,"shell32.dll",132) ;red X
         IL_Add(hImageList,"shell32.dll",78) ;yellow triangle with exclamation mark
         IL_Add(hImageList,"shell32.dll",138) ;green circle with arrow facing right
         IL_Add(hImageList,"shell32.dll",135) ;two sheets of paper
-        this.icons := {fail: "Icon1", pass: "Icon2", detail: "Icon3"}
+        this.icons := {fail: "Icon1", issue: "Icon2", pass: "Icon3", detail: "Icon4"}
         
         Gui, Yunit:Font, s10
         Gui, Yunit:Add, TreeView, x10 y30 vYunitWindowEntries ImageList%hImageList%
@@ -50,7 +51,7 @@ class YunitWindow
             pos := 1
             while (pos)
             {
-                TV_Modify(this.Categories[key], this.icons.fail)
+                TV_Modify(this.Categories[key], this.icons.issue)
                 pos := InStr(key, ".", false, (A_AhkVersion < "2") ? 0 : -1, 1)
                 key := SubStr(key, 1, pos-1)
             }
