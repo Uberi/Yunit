@@ -2,7 +2,7 @@ class YunitWindow
 {
     __new(instance)
     {
-        global YunitWindowTitle, YunitWindowEntries
+        global YunitWindowTitle, YunitWindowEntries, YunitWindowStatusBar
         Gui, Yunit:Font, s16, Arial
         Gui, Yunit:Add, Text, x0 y0 h30 vYunitWindowTitle Center, Test Results
         
@@ -16,7 +16,7 @@ class YunitWindow
         Gui, Yunit:Add, TreeView, x10 y30 vYunitWindowEntries ImageList%hImageList%
         
         Gui, Yunit:Font, s8
-        Gui, Yunit:Add, StatusBar
+        Gui, Yunit:Add, StatusBar, vYunitWindowStatusBar -Theme BackgroundGreen
         Gui, Yunit:+Resize +MinSize320x200
         Gui, Yunit:Show, w500 h400, Yunit Testing
         Gui, Yunit:+LastFound
@@ -45,6 +45,7 @@ class YunitWindow
         {
             hChildNode := TV_Add(TestName,Parent,this.icons.fail)
             TV_Add("Line #" result.line ": " result.message,hChildNode,this.icons.detail)
+            GuiControl, Yunit: +BackgroundRed, YunitWindowStatusBar
             key := category
             pos := 1
             while (pos)
