@@ -63,6 +63,11 @@ class NumberTestSuite
             Yunit.assert(this.x - this.y == 0, "oops!")
         }
         
+        Test_Fails_NoMessage()
+        {
+            Yunit.assert(this.x - this.y == 0)
+        }
+
         End()
         {
             this.remove("x")

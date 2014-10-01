@@ -1,4 +1,4 @@
-#NoEnv
+;#NoEnv
 
 class Yunit
 {
@@ -19,13 +19,13 @@ class Yunit
     
     Test(classes*) ; static method
     {
-        instance := new this()
+        instance := new this("")
         instance.results := {}
         instance.classes := classes
         instance.Modules := []
         for k,module in instance.base.Modules
             instance.Modules[k] := new module(instance)
-        while A_Index <= classes.MaxIndex()
+        while (A_Index <= (A_AhkVersion < "2" ? classes.MaxIndex() : classes.Length()))
         {
             cls := classes[A_Index]
             instance.current := A_Index
@@ -47,7 +47,7 @@ class Yunit
         {
             if IsObject(v) && IsFunc(v) ;test
             {
-                if k in Begin,End
+                if (k = "Begin") or (k = "End")
                     continue
                 if ObjHasKey(cls,"Begin") 
                 && IsFunc(cls.Begin)
@@ -55,7 +55,7 @@ class Yunit
                 result := 0
                 try
                 {
-                    v.(environment)
+                    %v%(environment)
                     if ObjHasKey(environment, "ExpectedException")
                         throw Exception("ExpectedException")
                 }
@@ -74,12 +74,18 @@ class Yunit
             }
             else if IsObject(v)
             && ObjHasKey(v, "__class") ;category
-                this.classes.Insert(++this.current, v)
+            {
+                if (A_AhkVersion < "2")
+                   this.classes.Insert(++this.current, v)
+                else
+                   this.classes.InsertAt(++this.current, v)
+            }
         }
     }
     
-    Assert(Value, Message = "FAIL")
+    Assert(Value, params*)
     {
+        Message := (params[1] = "") ? "FAIL" : params[1]
         if (!Value)
             throw Exception(Message, -1)
     }

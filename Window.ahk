@@ -28,7 +28,7 @@ class YunitWindow
         GuiControl, Yunit:Move, YunitWindowTitle, w%A_GuiWidth%
         GuiControl, Yunit:Move, YunitWindowEntries, % "w" . (A_GuiWidth - 20) . " h" . (A_GuiHeight - 60)
         Gui, Yunit:+LastFound
-        WinSet, Redraw
+        DllCall("user32.dll\InvalidateRect", "uInt", WinExist(), "uInt", 0, "uInt", 1)
         Return
         
         YunitGuiClose:
@@ -50,7 +50,7 @@ class YunitWindow
             while (pos)
             {
                 TV_Modify(this.Categories[key], this.icons.fail)
-                pos := InStr(key, ".", false, 0, 1)
+                pos := InStr(key, ".", false, (A_AhkVersion < "2") ? 0 : -1, 1)
                 key := SubStr(key, 1, pos-1)
             }
         }
@@ -63,11 +63,12 @@ class YunitWindow
     {
         Parent := 0
         Category := ""
-        Loop, Parse, Categories, .
+        Categories_Array := StrSplit(Categories, ".")
+        for k,v in Categories_Array
         {
-            Category .= (Category == "" ? "" : ".") A_LoopField
+            Category .= (Category == "" ? "" : ".") v
             If (!this.Categories.HasKey(Category))
-                this.Categories[Category] := TV_Add(A_LoopField, Parent, this.icons.pass)
+                this.Categories[Category] := TV_Add(v, Parent, this.icons.pass)
             Parent := this.Categories[Category]
         }
     }
