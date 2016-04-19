@@ -106,7 +106,7 @@ The results are formatted one per line, each entry being in the following form:
 
 ### YunitWindow
 
-    Tester := Yunit.Use(YunitStdout)
+    Tester := Yunit.Use(YunitWindow)
 
 This module displays the test results in a window with icons showing the status of each test.
 
