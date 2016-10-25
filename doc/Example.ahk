@@ -1,6 +1,6 @@
-#Include <Yunit\Yunit>
-#Include <Yunit\Window>
-#Include <Yunit\StdOut>
+#Include ..\Yunit.ahk
+#Include ..\Window.ahk
+#Include ..\StdOut.ahk
 
 Yunit.Use(YunitStdOut, YunitWindow).Test(NumberTestSuite, StringTestSuite)
 
