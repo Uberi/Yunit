@@ -9,7 +9,7 @@ class YunitWindow
         hImageList := IL_Create()
         IL_Add(hImageList,"shell32.dll",132) ;red X
         IL_Add(hImageList,"shell32.dll",78) ;yellow triangle with exclamation mark
-        IL_Add(hImageList,"shell32.dll",138) ;green circle with arrow facing right
+        IL_Add(hImageList,"shell32.dll",147) ;green up arrow
         IL_Add(hImageList,"shell32.dll",135) ;two sheets of paper
         this.icons := {fail: "Icon1", issue: "Icon2", pass: "Icon3", detail: "Icon4"}
         
