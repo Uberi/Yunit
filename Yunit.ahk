@@ -25,7 +25,7 @@ class Yunit
         instance.Modules := []
         for k,module in instance.base.Modules
             instance.Modules[k] := new module(instance)
-        while (A_Index <= (A_AhkVersion < "2" ? classes.MaxIndex() : classes.Length()))
+        while (A_Index <= classes.Length())
         {
             cls := classes[A_Index]
             instance.current := A_Index
@@ -66,7 +66,7 @@ class Yunit
                         result := error
                 }
                 results[k] := result
-                ObjRemove(environment, "ExpectedException")
+                ObjDelete(environment, "ExpectedException")
                 this.Update(cls.__class, k, results[k])
                 if ObjHasKey(cls,"End")
                 && IsFunc(cls.End)
@@ -74,12 +74,7 @@ class Yunit
             }
             else if IsObject(v)
             && ObjHasKey(v, "__class") ;category
-            {
-                if (A_AhkVersion < "2")
-                   this.classes.Insert(++this.current, v)
-                else
-                   this.classes.InsertAt(++this.current, v)
-            }
+                this.classes.InsertAt(++this.current, v)
         }
     }
     
