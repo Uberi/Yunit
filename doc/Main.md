@@ -114,7 +114,7 @@ The results are shown in the form of a tree control, with each test suite having
 
 Beside each node is an icon:
 
-* _Green circle with "play" symbol_ - test passed successfully.
+* _Green up arrow - test passed successfully.
 * _Yellow triangle with exclamation mark_ - test failed.
 * _Two papers_ - test result/description.
 
