@@ -59,6 +59,7 @@ class YunitWindow
         Else
             TV_Add(TestName,Parent,this.icons.pass)
         TV_Modify(Parent, "Expand")
+        TV_Modify(TV_GetNext(), "VisFirst")   ;// scroll the treeview back to the top
     }
     
     AddCategories(Categories)
