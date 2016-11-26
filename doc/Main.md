@@ -163,7 +163,7 @@ Writing Tests
 A test is a class method that takes no arguments and has no return value.
 For a test to fail it must throw an exception. 
 Any test that returns normally is considered a success. 
-The method `Yunit.Assert(Value, Message)` conveniently throws an exception when `Value` evaluates to false, with an optional `Message` which is displayed if it fails. If the Assert() fails however, no subsequent code within the test function will execute.
+The method `Yunit.Assert(Value, Message)` conveniently throws an exception when `Value` evaluates to false, with an optional `Message` which is displayed if it fails. If the Assert() fails however, no subsequent code within the test function will execute. So, it should always be the last line within the function.
 
     This_Is_A_Test()
     {
