@@ -30,8 +30,8 @@ class NumberTestSuite
     
     End()
     {
-        this.remove("x")
-        this.remove("y")
+        this.Delete("x")
+        this.Delete("y")
     }
     
     class Negatives
@@ -70,8 +70,8 @@ class NumberTestSuite
 
         End()
         {
-            this.remove("x")
-            this.remove("y")
+            this.Delete("x")
+            this.Delete("y")
         }
     }
 }
@@ -115,7 +115,7 @@ class StringTestSuite
     
     End()
     {
-        this.remove("a")
-        this.remove("b")
+        this.Delete("a")
+        this.Delete("b")
     }
 }
