@@ -93,7 +93,9 @@ Multiple output modules are available:
 
     Tester := Yunit.Use(YunitStdout)
 
-This module writes the test results to the standard output.
+This module writes the test results to the standard output. To see the output, use [this](https://autohotkey.com/docs/commands/FileAppend.htm) at the command prompt:
+
+`"%ProgramFiles%\AutoHotkey\AutoHotkey.exe" "TestsScript.ahk" | more`
 
 The results are formatted one per line, each entry being in the following form:
 
@@ -114,7 +116,7 @@ The results are shown in the form of a tree control, with each test suite having
 
 Beside each node is an icon:
 
-* _Green up arrow - test passed successfully.
+* _Green up arrow_ - test passed successfully.
 * _Yellow triangle with exclamation mark_ - test failed.
 * _Two papers_ - test result/description.
 
