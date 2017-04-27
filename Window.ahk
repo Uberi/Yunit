@@ -3,6 +3,8 @@ class YunitWindow
     __new(instance)
     {
         global YunitWindowTitle, YunitWindowEntries, YunitWindowStatusBar
+				width := 500
+				height := 800
         MyGui := GuiCreate(,"YUnit Output")
         MyGui.Opt("+PrefixYUnit_")
         MyGui.SetFont("s16, Arial")
@@ -16,12 +18,12 @@ class YunitWindow
         this.icons := {fail: "Icon1", issue: "Icon2", pass: "Icon3", detail: "Icon4"}
         
         MyGui.SetFont("s10")
-        this.tv := MyGui.Add("TreeView","x10 y30 w680 h740 vYunitWindowEntries ImageList%hImageList%")
+        this.tv := MyGui.Add("TreeView","x10 y30 w" . (width-20) . " h" . (height-60) . " vYunitWindowEntries ImageList%hImageList%")
         
         MyGui.SetFont("s8")
         MyGui.Add("StatusBar","vYunitWindowStatusBar -Theme BackgroundGreen")
         MyGui.Options("+Resize +MinSize320x200")
-        MyGui.Show("w700 h800", "Yunit Testing")
+        MyGui.Show("w" . width . " h" . height, "Yunit Testing")
         MyGui.Options("+LastFound")
 
         MyGui.OnClose := "OnClose" 
@@ -30,6 +32,9 @@ class YunitWindow
         this.gui := MyGui
         
         this.Categories := {}
+        this.tests := {}
+        this.tests.pass := 0
+        this.tests.fail := 0
         Return this
     }
     
@@ -40,6 +45,7 @@ class YunitWindow
         Parent := this.Categories[Category]
         If IsObject(result)
         {
+            this.tests.fail := this.tests.fail + 1
             hChildNode := this.tv.Add(TestName,Parent,this.icons.fail)
             this.tv.Add("Line #" result.line ": " result.message,hChildNode,this.icons.detail)
             this.gui.Control["YunitWindowStatusBar"].Opt("+BackgroundRed")
@@ -54,8 +60,11 @@ class YunitWindow
         }
         Else 
         {
+            this.tests.pass := this.tests.pass + 1
             this.tv.Add(TestName,Parent,this.icons.pass)
         }
+        str := "Number of tests: " . this.tests.fail + this.tests.pass . " ( " . this.tests.fail . " failed / " . this.tests.pass . " passed)"
+        this.gui.Control["YunitWindowStatusBar"].text := str
         this.tv.Modify(Parent, "Expand")
         this.tv.Modify(this.tv.GetNext(), "VisFirst")   ;// scroll the treeview back to the top
     }
