@@ -56,6 +56,7 @@ Yunit and its modules must be imported to be used:
     #Include <Yunit\Yunit> ;import the basic test routines
     #Include <Yunit\Window> ;import the window output module
     #Include <Yunit\Stdout> ;import the stdout output module
+    #Include <Yunit\JUnit> ;import the JUnit output module
 
 Output modules only need to be imported if they are going to be used.
 
@@ -105,6 +106,17 @@ The results are formatted one per line, each entry being in the following form:
 * _Category_ - category or categories that the test is located under, with subcategories separated by dots (Category.Subcategory.OtherCategory).
 * _TestName_ - name of the test being run.
 * _Data_ - data given by the test, such as specific error messages or benchmark numbers.
+
+### YunitJUnit
+
+    Tester := Yunit.Use(YunitJUnit)
+
+This module writes the test results  JUnit compatible XML-Output. The XML-File is generated in the _directory where the Test-script_ resides and
+has the name _junit.xml_.
+
+The JUnit format is commonly used on Continuous-Integration servers (like [jenkins](https://jenkins.io/))
+
+See [here for more information on the JUnit-format](https://pzolee.blogs.balabit.com/2012/11/jenkins-vs-junit-xml-format/)
 
 ### YunitWindow
 
