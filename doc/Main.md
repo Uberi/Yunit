@@ -107,6 +107,22 @@ The results are formatted one per line, each entry being in the following form:
 * _TestName_ - name of the test being run.
 * _Data_ - data given by the test, such as specific error messages or benchmark numbers.
 
+### YunitOutputDebug
+
+    Tester := Yunit.Use(YunitOutputDebug)
+
+This module writes the test results via OutputDebug. To see the output, see how to use [OutputDebug](https://autohotkey.com/docs/commands/OutputDebug.htm)
+
+The results are formatted one per line, each entry being in the following form:
+
+    (Counter) Result: Category.TestName Data
+
+* _Counter_ - Number of the performed test
+* _Result_ - result of the test ("PASS" or "FAIL").
+* _Category_ - category or categories that the test is located under, with subcategories separated by dots (Category.Subcategory.OtherCategory).
+* _TestName_ - name of the test being run.
+* _Data_ - data given by the test, such as specific error messages or benchmark numbers.
+
 ### YunitJUnit
 
     Tester := Yunit.Use(YunitJUnit)

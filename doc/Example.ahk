@@ -2,8 +2,9 @@
 #Include ..\Window.ahk
 #Include ..\StdOut.ahk
 #Include ..\JUnit.ahk
+#Include ..\OutputDebug.ahk
 
-Yunit.Use(YunitStdOut, YunitWindow, YunitJUnit).Test(NumberTestSuite, StringTestSuite)
+Yunit.Use(YunitStdOut, YunitWindow, YunitJUnit, YunitOutputDebug).Test(NumberTestSuite, StringTestSuite)
 
 class NumberTestSuite
 {
