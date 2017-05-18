@@ -53,10 +53,11 @@ Importing
 ---------
 Yunit and its modules must be imported to be used:
 
-    #Include <Yunit\Yunit> ;import the basic test routines
-    #Include <Yunit\Window> ;import the window output module
-    #Include <Yunit\Stdout> ;import the stdout output module
-    #Include <Yunit\JUnit> ;import the JUnit output module
+    #Include <Yunit\Yunit> ;import the basic test routines (mandatory)
+    #Include <Yunit\Window> ;import the window output module (optional)
+    #Include <Yunit\Stdout> ;import the stdout output module (optional)
+    #Include <Yunit\OutputDebug> ;import the OutputDebug output module (optional)
+    #Include <Yunit\JUnit> ;import the JUnit output module (optional)
 
 Output modules only need to be imported if they are going to be used.
 
