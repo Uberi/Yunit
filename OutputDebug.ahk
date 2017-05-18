@@ -11,16 +11,16 @@ class YunitOutputDebug{
 		this.tests.fail := 0
 		this.tests.overall := 0
 		this.prefix := "[YUnit] "
-		OutputDebug % this.prefix "  "
-		OutputDebug % this.prefix "***********************************************************************************************************"
-		OutputDebug % this.prefix "*** START OF TESTSUITE ************************************************************************************" 
+		OutputDebug % this.prefix "*** START OF UNITTEST *************************************************************************************" 
 		Return this
 	}
 
 	__Delete() { 
-		OutputDebug % this.prefix "*** STATISTICS OF TESTSUITE: performed: " this.tests.overall " - failed: " this.tests.fail " - passed: " this.tests.pass 
-		OutputDebug % this.prefix "***********************************************************************************************************"
-		OutputDebug % this.prefix "  "
+		status := "PASS"
+		if (this.tests.fail > 0) {
+			Status := "FAIL"
+		}
+		OutputDebug % this.prefix "***** " status ": Overall UnitTestSuite (Tests performed: " this.tests.overall " (failed: " this.tests.fail " - passed: " this.tests.pass "))" 
 	}
 
 	Update(Category, TestName, Result)	{
