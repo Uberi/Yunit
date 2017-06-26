@@ -6,7 +6,6 @@ class YunitWindow
 				width := 500
 				height := 800
         MyGui := GuiCreate(,"YUnit Output")
-        MyGui.Opt("+PrefixYUnit_")
         MyGui.SetFont("s16, Arial")
         MyGui.Add("Text", "x0 y0 h30 vYunitWindowTitle Center", "Test Results")
         
@@ -18,16 +17,17 @@ class YunitWindow
         this.icons := {fail: "Icon1", issue: "Icon2", pass: "Icon3", detail: "Icon4"}
         
         MyGui.SetFont("s10")
-        this.tv := MyGui.Add("TreeView","x10 y30 w" . (width-20) . " h" . (height-60) . " vYunitWindowEntries ImageList%hImageList%")
-        
+        this.tv := MyGui.Add("TreeView","x10 y30 w" . (width-20) . " h" . (height-60) . " vYunitWindowEntries")
+        this.tv.SetImageList(hImageList)
+
         MyGui.SetFont("s8")
         MyGui.Add("StatusBar","vYunitWindowStatusBar -Theme BackgroundGreen")
         MyGui.Options("+Resize +MinSize320x200")
         MyGui.Show("w" . width . " h" . height, "Yunit Testing")
         MyGui.Options("+LastFound")
 
-        MyGui.OnClose := "OnClose" 
-        MyGui.OnSize := "OnSize" 
+        MyGui.OnEvent("Close", "YUnit_OnClose") 
+        MyGui.OnEvent("Size", "YUnit_OnSize") 
         
         this.gui := MyGui
         
@@ -47,7 +47,8 @@ class YunitWindow
         {
             this.tests.fail := this.tests.fail + 1
             hChildNode := this.tv.Add(TestName,Parent,this.icons.fail)
-            this.tv.Add("Line #" result.line ": " result.message,hChildNode,this.icons.detail)
+            str := "Line #" result.line ": " result.message
+            this.tv.Add(str,hChildNode,this.icons.detail)
             this.gui.Control["YunitWindowStatusBar"].Opt("+BackgroundRed")
             key := category
             pos := 1

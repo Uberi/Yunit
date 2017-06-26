@@ -11,7 +11,7 @@ class YunitOutputDebug{
 		this.tests.fail := 0
 		this.tests.overall := 0
 		this.prefix := "[YUnit] "
-		OutputDebug % this.prefix "*** START OF UNITTEST *************************************************************************************" 
+		OutputDebug this.prefix "*** START OF UNITTEST *************************************************************************************" 
 		Return this
 	}
 
@@ -20,7 +20,7 @@ class YunitOutputDebug{
 		if (this.tests.fail > 0) {
 			Status := "FAIL"
 		}
-		OutputDebug % this.prefix "***** " status ": Overall UnitTestSuite (Tests performed: " this.tests.overall " (failed: " this.tests.fail " - passed: " this.tests.pass "))" 
+		OutputDebug this.prefix "***** " status ": Overall UnitTestSuite (Tests performed: " this.tests.overall " (failed: " this.tests.fail " - passed: " this.tests.pass "))" 
 	}
 
 	Update(Category, TestName, Result)	{
@@ -36,6 +36,6 @@ class YunitOutputDebug{
 		}
 		cnt := format("{:3}", this.tests.overall) 
 		msg := "(" cnt ") " status ": " Category "." Testname " " details
-		OutputDebug % this.prefix msg
+		OutputDebug this.prefix msg
 	}
 }

@@ -11,7 +11,7 @@ class YunitJUnit{
         this.filename := A_ScriptDir . "\junit.xml"
         ; the file is deleted if it exists already
         if FileExist(this.filename) {
-            FileDelete % this.filename
+            FileDelete this.filename
         }
 				this.out := {}
 				this.tests := {}
@@ -29,7 +29,7 @@ class YunitJUnit{
 				file.write(msg . "`n")
 				msg := '`t<testsuite failures=' . this.tests.fail . ' tests=' . this.tests.overall . ' name="AHK_YUnit">'
 				file.write(msg . "`n")
-				Loop % this.out.Length()
+				Loop this.out.Length()
 					file.write(this.out[A_Index] . "`n")
         file.write("`t</testsuite>`n")
 				file.write("</testsuites>`n")
