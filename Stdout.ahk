@@ -4,7 +4,7 @@ class YunitStdOut
     {
         if IsObject(Result)
         {
-            Details := " at line " Result.Line " " Result.Message
+            Details := " at line " Result.Line " " Result.Message "(" Result.File ")"
             Status := "FAIL"
         }
         else

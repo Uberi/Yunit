@@ -45,7 +45,7 @@ class YunitWindow
         If IsObject(result)
         {
             hChildNode := TV_Add(TestName,Parent,this.icons.fail)
-            TV_Add("Line #" result.line ": " result.message,hChildNode,this.icons.detail)
+            TV_Add("Line #" result.line ": " result.message "(" result.line ")",hChildNode,this.icons.detail)
             GuiControl, Yunit: +BackgroundRed, YunitWindowStatusBar
             key := category
             pos := 1
