@@ -54,10 +54,11 @@ class YunitWindow
 			pos := 1
 			while (pos)
 			{
-				this.tv.Modify(this.Categories[key], this.icons.issue)
+				this.tv.Modify(this.Categories[key], "Expand " this.icons.issue)
 				pos := InStr(key, ".", false, (A_AhkVersion < "2") ? 0 : -1, 1)
 				key := SubStr(key, 1, pos-1)
 			}
+			this.tv.Modify(Parent, "Expand")
 		}
 		Else 
 		{
@@ -66,7 +67,6 @@ class YunitWindow
 		}
 		str := "Number of tests: " . this.tests.fail + this.tests.pass . " ( " . this.tests.fail . " failed / " . this.tests.pass . " passed)"
 		this.gui.Control["YunitWindowStatusBar"].text := str
-		this.tv.Modify(Parent, "Expand")
 		this.tv.Modify(this.tv.GetNext(), "VisFirst")   ;// scroll the treeview back to the top
 	}
 	
