@@ -51,14 +51,14 @@ class YunitWindow
             pos := 1
             while (pos)
             {
-                TV_Modify(this.Categories[key], this.icons.issue)
+                TV_Modify(this.Categories[key], "Expand " . this.icons.issue)
                 pos := InStr(key, ".", false, (A_AhkVersion < "2") ? 0 : -1, 1)
                 key := SubStr(key, 1, pos-1)
             }
+            TV_Modify(Parent, "Expand")
         }
         Else
             TV_Add(TestName,Parent,this.icons.pass)
-        TV_Modify(Parent, "Expand")
         TV_Modify(TV_GetNext(), "VisFirst")   ;// scroll the treeview back to the top
     }
     
