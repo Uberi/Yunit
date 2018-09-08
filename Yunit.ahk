@@ -18,16 +18,16 @@ class Yunit
     Test(classes*) ; static method
     {
         instance := new this("")
-        instance.results := {}
+        instance.results := Yunit.Array()
         instance.classes := classes
-        instance.Modules := []
+        instance.Modules := Yunit.Array()
         for k,module in instance.base.Modules
             instance.Modules[k] := new module(instance)
         while (A_Index <= classes.Length())
         {
             cls := classes[A_Index]
             instance.current := A_Index
-            instance.results[cls.__class] := obj := {}
+            instance.results[cls.__class] := obj := Yunit.Array()
             instance.TestClass(obj, cls)
         }
     }
@@ -90,5 +90,10 @@ class Yunit
         if !ObjHasKey(v1, "Message") || !ObjHasKey(v2, "Message")
             return False
         return v1.Message = v2.Message
+    }
+    
+    Array(v*)
+    {   ; This avoids any Array() or Object() overridden by the script being tested.
+        return v
     }
 }
