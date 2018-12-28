@@ -28,6 +28,7 @@ $config = @{
 	autohotkeyPath='Autohotkey'; # assumes it's in $env:PATH
 	# autohotkeyPath='C:\Program Files\AutoHotkey\AutoHotkey.exe';
 	failColor='Magenta';
+	errorColor='Red';
 	passColor='Green';
 	infoColor='White';
 	titleColor='Blue';
@@ -47,3 +48,5 @@ Run-AllTests $path $config.match
 if ($monitor) {
 	Run-Watcher $path $config.match
 }
+
+

@@ -88,7 +88,8 @@ class Yunit
     That(ExpectedValue, ActualValue, params*)
     {
         if (ExpectedValue != ActualValue) {
-            Message := ExpectedValue "`t" ActualValue
+            ErrorMessage := params[1]
+            Message := ErrorMessage "`t" ExpectedValue "`t" ActualValue
             throw Exception(Message, -2)
         }
     }

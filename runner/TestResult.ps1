@@ -8,11 +8,11 @@ class TestResult
 	# Exception details
 	[string]$lineNumber
 	[string]$fileName
+	[string]$errorMessage
 
 	# Assert.That values
 	$expectedValue
 	$actualValue
-
 
 	TestResult($line)
 	{
@@ -23,8 +23,9 @@ class TestResult
 		if ($parts.Length -gt 3) {
 			$this.lineNumber = $parts[3]
 			$this.fileName = $parts[4]
-			$this.expectedValue = $parts[5]
-			$this.actualValue = $parts[6]
+			$this.errorMessage = $parts[5]
+			$this.expectedValue = $parts[6]
+			$this.actualValue = $parts[7]
 		}
 	}
 

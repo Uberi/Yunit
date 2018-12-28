@@ -27,6 +27,13 @@ class Writer
 		Write-Host $str -foregroundColor $this.config.failColor
 
 		$in = "       "
+
+		if ($result.errorMessage) {
+			$str = "$in Message: "
+			Write-Host $str -foregroundColor $this.config.failColor -NoNewline
+			Write-Host $result.errorMessage -foregroundColor $this.config.errorColor
+		}
+
 		$str = "$in Expected: "
 		Write-Host $str -foregroundColor $this.config.failColor -NoNewline
 		Write-Host $result.expectedValue -foregroundColor $this.config.infoColor

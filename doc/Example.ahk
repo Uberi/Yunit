@@ -63,7 +63,7 @@ class NumberTestSuite
         
         Test_Fails()
         {
-            Yunit.assert(this.x - this.y == 0, "oops!")
+            Yunit.that(0, this.x - this.y, "oops!")
         }
         
         Test_Fails_NoMessage()
