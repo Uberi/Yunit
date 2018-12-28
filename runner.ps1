@@ -17,11 +17,15 @@ $config = @{
 	passColor='Green';
 	infoColor='White';
 	titleColor='Blue';
+	indent='  ';
 
 	monitorPath=(get-location);
 	# match='*.ahk';
 	match='Example.ahk';
 }
+
+. ".\runner\writer.ps1"
+$write = [Writer]::new($config)
 
 function initializeTotals() {
 	return @{
@@ -35,12 +39,12 @@ $totals = initializeTotals
 
 function Run-AllTests($path, $match) {
 	$totals = initializeTotals
-	Write-Host "Running tests in $path\$match" -ForegroundColor $config.infoColor
+	$write.info("Running tests in $path\$match")
 	Get-ChildItem "$path\$match" -Recurse | % {
 		Run-TestFile $_
 	}
 
-	Write-Host "Failed: " $totals.fail "  |  Success: " $totals.pass
+	$write.info("Failed:  " + $totals.fail + "  |  Success:  " + $totals.pass)
 }
 
 
@@ -50,16 +54,18 @@ function Run-TestFile($file) {
 	$test = & $config.autohotkeyPath $file.FullName
 	$arr = $test -split "`n"
 
-	Write-Host "`nFile: $file"-ForegroundColor $config.infoColor
+	$write.info("`nFile: $file")
+	$write.indent()
 	foreach ($test in $arr) {
 		if ($test -like "FAIL*") {
 			$totals.fail++
-			Write-Host "  $test" -ForegroundColor $config.failColor
+			$write.fail("$test")
 		} else {
 			$totals.pass++
-			Write-Host "  $test" -ForegroundColor $config.passColor
+			$write.pass("$test")
 		}
 	}
+	$write.outdent()
 
 	Pop-Location
 }
@@ -85,18 +91,14 @@ function Run-Watcher($path) {
 		}
 
 		cls
-		Write-Host "Change in" $result.Name "on" (get-date -f F) -ForegroundColor $config.infoColor
+		$write.info("Change in " + $result.Name + " on " + (get-date -f F))
 		Run-AllTests $path $config.match
 	}
 }
 
 
 # Pretty Title print
-$title = "Start Yunit Monitoring"
-$titleBarLength = $title.length + 6
-Write-Host ("*" * $titleBarLength) -ForegroundColor $config.titleColor
-Write-Host "** $title **" -ForegroundColor $config.titleColor
-Write-Host ("*" * $titleBarLength) -ForegroundColor $config.titleColor
+$write.title("Start Yunit Monitoring")
 
 # Execute tests
 $path = $config.monitorPath
