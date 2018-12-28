@@ -20,15 +20,33 @@ class Writer
 		Write-Host $str -foregroundColor $this.config.infoColor
 	}
 
-	fail($str)
+	fail([TestResult]$result)
 	{
-		$str = $this.getIndented($str)
+		$indent = $this.getIndented("")
+		$str = "$indent$($result.status): $($result.category).$($result.testName)"
 		Write-Host $str -foregroundColor $this.config.failColor
+
+		$in = "       "
+		$str = "$in Expected: "
+		Write-Host $str -foregroundColor $this.config.failColor -NoNewline
+		Write-Host $result.expectedValue -foregroundColor $this.config.infoColor
+
+		$str = "$in But got: "
+		Write-Host $str -foregroundColor $this.config.failColor -NoNewline
+		Write-Host $result.actualValue -foregroundColor $this.config.infoColor
+
+		Write-Host
+
+		Write-Host "$in on line " -foregroundColor $this.config.failColor -NoNewline
+		Write-Host $result.lineNumber -foregroundColor $this.config.infoColor -NoNewline
+		Write-Host " of " -foregroundColor $this.config.failColor -NoNewline
+		Write-Host $result.fileName -foregroundColor $this.config.infoColor
 	}
 
-	pass($str)
+	pass([TestResult]$result)
 	{
-		$str = $this.getIndented($str)
+		$indent = $this.getIndented("")
+		$str = "$indent$($result.status): $($result.category).$($result.testName)"
 		Write-Host $str -foregroundColor $this.config.passColor
 	}
 

@@ -84,6 +84,14 @@ class Yunit
         if (!Value)
             throw Exception(Message, -2)
     }
+
+    That(ExpectedValue, ActualValue, params*)
+    {
+        if (ExpectedValue != ActualValue) {
+            Message := ExpectedValue "`t" ActualValue
+            throw Exception(Message, -2)
+        }
+    }
     
     CompareValues(v1, v2)
     {   ; Support for simple exceptions. May need to be extended in the future.
