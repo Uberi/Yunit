@@ -1,4 +1,4 @@
-# .\runner.ps1
+# CLI: .\runner.ps1
 
 $config = @{
 	autohotkeyPath='Autohotkey'; # assumes it's in $env:PATH
@@ -8,14 +8,17 @@ $config = @{
 	infoColor='White';
 	titleColor='Blue';
 
-	monitorPath=(get-location);
+	# monitorPath=(get-location);
+	# match='*.ahk';
+	monitorPath='c:\temp\Yunit';
+	match='Example.ahk';
 }
 
 
 
-function Run-AllTests($path, $match = "\*.ahk") {
-	Write-Host "Running tests in $path$match" -ForegroundColor $config.infoColor
-	Get-ChildItem "$path$match" -Recurse | % {
+function Run-AllTests($path, $match) {
+	Write-Host "Running tests in $path\$match" -ForegroundColor $config.infoColor
+	Get-ChildItem "$path\$match" -Recurse | % {
 		Run-TestFile $_
 	}
 }
@@ -51,6 +54,7 @@ function Run-Watcher($path) {
 		$result = $watcher.WaitForChanged([System.IO.WatcherChangeTypes]::Changed -bor [System.IO.WatcherChangeTypes]::Renamed -bOr [System.IO.WatcherChangeTypes]::Created, 1000);
 		if ($result.TimedOut) {
 			continue;
+
 		}
 
 		if ($result.Name -like ".git*") {
@@ -59,7 +63,7 @@ function Run-Watcher($path) {
 
 		cls
 		Write-Host "Change in" $result.Name "on" (get-date -f F) -ForegroundColor $config.infoColor
-		Run-AllTests $path
+		Run-AllTests $path $config.match
 	}
 }
 
@@ -73,5 +77,5 @@ Write-Host ("*" * $titleBarLength) -ForegroundColor $config.titleColor
 
 # Execute tests
 $path = $config.monitorPath
-Run-AllTests $path
+Run-AllTests $path $config.match
 Run-Watcher $path
