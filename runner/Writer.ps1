@@ -48,6 +48,9 @@ class Writer
 		Write-Host $result.lineNumber -foregroundColor $this.config.infoColor -NoNewline
 		Write-Host " of " -foregroundColor $this.config.failColor -NoNewline
 		Write-Host $result.fileName -foregroundColor $this.config.infoColor
+
+		Write-Host
+		Write-Host
 	}
 
 	pass([TestResult]$result)
