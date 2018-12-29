@@ -42,13 +42,6 @@ class OtherTests
 }
 ```
 
-More outputs:  
-- `Stdout.ahk`: `YunitPorcelainStdOut` = Format understood by `runner.ps1`
-- `JUnit.ahk`: `YunitJUnit` = JUnit Xml output
-- `OutputDebug.ahk`: `YunitOutputDebug`
-- `Stdout.ahk`: `YunitStdOut`
-- `Window.ahk`: `YunitWindow` = Simple GUI
-
 Running Tests
 -------------
 
@@ -66,9 +59,41 @@ Use the runner:
 ![runner.ps1 output](doc/yunit-runner-output-example.png)
 
 
+Output Modules
+--------------
+
+Modules that come with Yunit:  
+- `Stdout.ahk`: `YunitPorcelainStdOut` = Format understood by `runner.ps1`
+- `JUnit.ahk`: `YunitJUnit` = JUnit Xml output
+- `OutputDebug.ahk`: `YunitOutputDebug`
+- `Stdout.ahk`: `YunitStdOut`
+- `Window.ahk`: `YunitWindow` = Simple GUI
+
+### Build your own
+
+Stop running on first failed test:
+
+```ahk
+class EarlyExit
+{
+    Update(Category, Test, Result)
+    {
+        if IsObject(Result)
+        {
+            ExitApp 1
+        }
+    }
+}
+```
+
+Usage: `Yunit.Use(YunitPorcelainStdOut, EarlyExit).Test(TestSuites)`
+
+
 Docs
 ----
 See [doc/Main.md](doc/Main.md)
+
+
 
 Branch Description
 ------------------
