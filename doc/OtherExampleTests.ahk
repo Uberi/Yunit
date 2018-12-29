@@ -4,10 +4,10 @@
 ; #Include ..\JUnit.ahk
 ; #Include ..\OutputDebug.ahk
 
-; Yunit.Use(YunitStdOut, YunitWindow, YunitJUnit, YunitOutputDebug).Test(NumberTestSuite, StringTestSuite)
-Yunit.Use(YunitPorcelainStdOut).Test(NumberTestSuite, StringTestSuite)
+; Yunit.Use(YunitStdOut, YunitWindow, YunitJUnit, YunitOutputDebug).Test(NumberTests, StringTests)
+Yunit.Use(YunitPorcelainStdOut).Test(NumberTests, StringTests)
 
-class NumberTestSuite
+class NumberTests
 {
     Begin()
     {
@@ -15,18 +15,18 @@ class NumberTestSuite
         this.y := 456
     }
     
-    Test_Sum()
+    Sum()
     {
         Yunit.that(579, this.x + this.y)
     }
     
-    Test_Division()
+    Division()
     {
         Yunit.assert(this.x / this.y < 1)
         Yunit.assert(this.x / this.y > 0.25)
     }
     
-    Test_Multiplication()
+    Multiplication()
     {
         Yunit.that(56088, this.x * this.y)
     }
@@ -45,28 +45,28 @@ class NumberTestSuite
             this.y := 456
         }
         
-        Test_Sum()
+        Sum()
         {
             Yunit.that(333, this.x + this.y)
         }
         
-        Test_Division()
+        Division()
         {
             Yunit.assert(this.x / this.y > -1)
             Yunit.assert(this.x / this.y < -0.25)
         }
         
-        Test_Multiplication()
+        Multiplication()
         {
             Yunit.that(-56088, this.x * this.y)
         }
         
-        Test_Fails()
+        Fails()
         {
             Yunit.that(0, this.x - this.y, "oops!")
         }
         
-        Test_Fails_NoMessage()
+        Fails_NoMessage()
         {
             Yunit.that(0, this.x - this.y)
         }
@@ -79,7 +79,7 @@ class NumberTestSuite
     }
 }
 
-class StringTestSuite
+class StringTests
 {
     Begin()
     {
@@ -87,29 +87,29 @@ class StringTestSuite
         this.b := "cdef"
     }
     
-    Test_Concat()
+    Concat()
     {
         Yunit.that("abccdef", this.a . this.b)
     }
     
-    Test_Substring()
+    Substring()
     {
         Yunit.that("de", SubStr(this.b, 2, 2))
     }
     
-    Test_InStr()
+    InStr()
     {
         Yunit.that(3, InStr(this.a, "c"))
     }
     
-    Test_ExpectedException_Success()
+    ExpectedException_Success()
     {
         this.ExpectedException := Exception("SomeCustomException")
         if SubStr(this.a, 3, 1) == SubStr(this.b, 1, 1)
             throw Exception("SomeCustomException")
     }
     
-    Test_ExpectedException_Fail()
+    ExpectedException_Fail()
     {
         this.ExpectedException := "fubar"
         Yunit.that(this.a, this.b)

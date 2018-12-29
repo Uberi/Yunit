@@ -11,7 +11,7 @@ Yunit is designed to aid in the following tasks:
 
 Example
 -------
-See `doc/Example.ahk` for a working example script that demonstrates Yunit being used for testing.
+See `doc/BasicExampleTests.ahk` and `doc/OtherExampleTests.ahk` for working example scripts that demonstrates Yunit being used for testing.
 
 A basic test setup looks like the following:
 
@@ -21,7 +21,7 @@ A basic test setup looks like the following:
     {
         SomeTest()
         {
-            return True
+            Yunit.that(expected, actual, "optional message")
         }
     }
 
@@ -150,6 +150,27 @@ Beside each node is an icon:
 * _Two papers_ - test result/description.
 
 Tests that result in data will have an additional child node that can be expanded to show it.
+
+### YunitPorcelainStdOut
+
+    Tester := Yunit.Use(YunitPorcelainStdOut)
+
+This module writes the test results to the standard output in a format used by `runner.ps1`
+
+`runner.ps1 -file "*Tests.ahk" -Monitor $false`
+
+The results are displayed tab separated one per line, each entry being in the following form:
+
+    Result  Category  TestName  lineNumber  fileName  errorMessage  expectedValue  actualValue
+
+* _Result_ - result of the test ("PASS" or "FAIL").
+* _Category_ - category or categories that the test is located under, with subcategories separated by dots (Category.Subcategory.OtherCategory).
+* _TestName_ - name of the test being run.
+* _lineNumber_ - line number where exception ocurred.
+* _fileName_ - file where exception ocurred.
+* _errorMessage_ - the user provided error message (ex: `Yunit.that(1, 2, "msg")`).
+* _expectedValue_
+* _actualValue_
 
 Test Suites and Categories
 --------------------------

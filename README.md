@@ -2,8 +2,70 @@ Yunit
 =====
 Super simple unit testing framework for [AutoHotkey](http://www.autohotkey.com/).
 
-Usage
------
+
+Basic Example
+-------------
+
+```ahk
+#Include ..\Yunit.ahk
+#Include ..\StdOut.ahk
+
+Yunit.Use(YunitPorcelainStdOut).Test(EqualityTests, OtherTests)
+
+class EqualityTests
+{
+    Begin()
+    {
+        ; Executes before each test
+        this.expected := 123
+    }
+
+    IsEqual()
+    {
+        actual := 123
+        Yunit.that(this.expected, actual, "extra fail msg")
+    }
+
+    End()
+    {
+        ; Executes after each test
+        this.Delete("expected")
+    }
+}
+
+; Nesting is possible:
+class OtherTests
+{
+    class InnerTestSuite
+    {
+    }
+}
+```
+
+More outputs:  
+- `Stdout.ahk`: `YunitPorcelainStdOut` = Format understood by `runner.ps1`
+- `JUnit.ahk`: `YunitJUnit` = JUnit Xml output
+- `OutputDebug.ahk`: `YunitOutputDebug`
+- `Stdout.ahk`: `YunitStdOut`
+- `Window.ahk`: `YunitWindow` = Simple GUI
+
+Running Tests
+-------------
+
+Run a testsuite:  
+```ps1
+cd doc
+AutoHotkey.exe OtherExampleTests.ahk | more
+```
+
+Use the runner:  
+```ps1
+runner.ps1 -file "*Tests.ahk" -Monitor $false
+```
+
+
+Docs
+----
 See [doc/Main.md](doc/Main.md)
 
 Branch Description

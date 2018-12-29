@@ -1,52 +1,48 @@
 # CLI: .\runner.ps1 -Monitor $false
 param (
-	[bool]$monitor = $true
+	[string]$path = $(Get-Location),
+	[string]$file = "*Tests.ahk",
+	[bool]$monitor = $true,
+	[string]$autohotkeyExe = "Autohotkey" # assumes it's in $env:PATH
+	# [string]autohotkey='C:\Program Files\AutoHotkey\AutoHotkey.exe'
  )
 
 # Example output
 # *****************
 # ** Start Yunit **
 # *****************
-# Running tests in .\Yunit\doc\Example.ahk
+# Running tests in .\Yunit\doc\*Tests.ahk
 #
 # File: doc\Example.ahk
-#   PASS: SuiteName.TestName
-#   FAIL: SuiteName.TestName
+#   PASS: SuiteName.Test1
+#   FAIL: SuiteName.Test2
+#         Message: Oops!
 #         Expected: value
 #         But got: diffValue
 #
-#         on line 58 of .\Yunit\doc\Example.ahk
+#         on line 58 of .\Yunit\doc\ExampleTests.ahk
 #
 
-. ".\runner\run-watcher.ps1"
-. ".\runner\run-tests.ps1"
-. ".\runner\TestResult.ps1"
-. ".\runner\Writer.ps1"
+
+. "$PSScriptRoot\runner\run-watcher.ps1"
+. "$PSScriptRoot\runner\run-tests.ps1"
+. "$PSScriptRoot\runner\TestResult.ps1"
+. "$PSScriptRoot\runner\Writer.ps1"
+
 
 
 $config = @{
-	autohotkeyPath='Autohotkey'; # assumes it's in $env:PATH
-	# autohotkeyPath='C:\Program Files\AutoHotkey\AutoHotkey.exe';
-	failColor='Magenta';
-	errorColor='Red';
-	passColor='Green';
-	infoColor='White';
-	titleColor='Blue';
+	autohotkeyPath=$autohotkeyExe; monitorPath=$path; match=$file;
+	failColor='Magenta'; errorColor='Red'; passColor='Green';
+	infoColor='White'; titleColor='Blue';
 	indent='  ';
-
-	monitorPath=(get-location);
-	# match='*.ahk';
-	match='Example.ahk';
 }
 
 
 # Execute tests
 $write = [Writer]::new($config)
 $write.title("Start Yunit")
-$path = $config.monitorPath
-Run-AllTests $path $config.match
+Run-AllTests $config.monitorPath $config.match
 if ($monitor) {
-	Run-Watcher $path $config.match
+	Run-Watcher $config.monitorPath $config.match
 }
-
-
