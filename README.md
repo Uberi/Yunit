@@ -36,7 +36,7 @@ class EqualityTests
 ; Nesting is possible:
 class OtherTests
 {
-    class InnerTestSuite
+    class InnerTests
     {
     }
 }
