@@ -38,7 +38,7 @@ class Writer
 		Write-Host $str -foregroundColor $this.config.failColor -NoNewline
 		Write-Host $result.expectedValue -foregroundColor $this.config.infoColor
 
-		$str = "$in But got: "
+		$str = "$in But got:  "
 		Write-Host $str -foregroundColor $this.config.failColor -NoNewline
 		Write-Host $result.actualValue -foregroundColor $this.config.infoColor
 
