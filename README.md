@@ -60,8 +60,10 @@ AutoHotkey.exe OtherExampleTests.ahk | more
 
 Use the runner:  
 ```ps1
-runner.ps1 -file "*Tests.ahk" -Monitor $false
+.\runner.ps1 -path .\doc -file "*Tests.ahk" -Monitor $false
 ```
+
+![runner.ps1 output](doc/yunit-runner-output-example.png)
 
 
 Docs
