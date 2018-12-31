@@ -84,7 +84,25 @@ class Yunit
         if (!Value)
             throw Exception(Message, -2)
     }
-    
+
+    That(ExpectedValue, ActualValue, params*)
+    {
+        if (ExpectedValue != ActualValue) {
+            ErrorMessage := params[1]
+            ExpectedValue := this.Escape(ExpectedValue)
+            ActualValue := this.Escape(ActualValue)
+            Message := ErrorMessage "`t" ExpectedValue "`t" ActualValue
+            throw Exception(Message, -2)
+        }
+    }
+
+    Escape(value)
+    {
+        value := StrReplace(value, "`n", "``n")
+        value := StrReplace(value, "`t", "``t")
+        return value
+    }
+
     CompareValues(v1, v2)
     {   ; Support for simple exceptions. May need to be extended in the future.
         if !IsObject(v1) || !IsObject(v2)

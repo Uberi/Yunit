@@ -1,12 +1,13 @@
 #Include ..\Yunit.ahk
-#Include ..\Window.ahk
+; #Include ..\Window.ahk
 #Include ..\StdOut.ahk
-#Include ..\JUnit.ahk
-#Include ..\OutputDebug.ahk
+; #Include ..\JUnit.ahk
+; #Include ..\OutputDebug.ahk
 
-Yunit.Use(YunitStdOut, YunitWindow, YunitJUnit, YunitOutputDebug).Test(NumberTestSuite, StringTestSuite)
+; Yunit.Use(YunitStdOut, YunitWindow, YunitJUnit, YunitOutputDebug).Test(NumberTests, StringTests)
+Yunit.Use(YunitPorcelainStdOut).Test(NumberTests, StringTests)
 
-class NumberTestSuite
+class NumberTests
 {
     Begin()
     {
@@ -14,20 +15,20 @@ class NumberTestSuite
         this.y := 456
     }
     
-    Test_Sum()
+    Sum()
     {
-        Yunit.assert(this.x + this.y == 579)
+        Yunit.that(579, this.x + this.y)
     }
     
-    Test_Division()
+    Division()
     {
         Yunit.assert(this.x / this.y < 1)
         Yunit.assert(this.x / this.y > 0.25)
     }
     
-    Test_Multiplication()
+    Multiplication()
     {
-        Yunit.assert(this.x * this.y == 56088)
+        Yunit.that(56088, this.x * this.y)
     }
     
     End()
@@ -44,30 +45,30 @@ class NumberTestSuite
             this.y := 456
         }
         
-        Test_Sum()
+        Sum()
         {
-            Yunit.assert(this.x + this.y == 333)
+            Yunit.that(333, this.x + this.y)
         }
         
-        Test_Division()
+        Division()
         {
             Yunit.assert(this.x / this.y > -1)
             Yunit.assert(this.x / this.y < -0.25)
         }
         
-        Test_Multiplication()
+        Multiplication()
         {
-            Yunit.assert(this.x * this.y == -56088)
+            Yunit.that(-56088, this.x * this.y)
         }
         
-        Test_Fails()
+        Fails()
         {
-            Yunit.assert(this.x - this.y == 0, "oops!")
+            Yunit.that(0, this.x - this.y, "oops!")
         }
         
-        Test_Fails_NoMessage()
+        Fails_NoMessage()
         {
-            Yunit.assert(this.x - this.y == 0)
+            Yunit.that(0, this.x - this.y)
         }
 
         End()
@@ -78,7 +79,7 @@ class NumberTestSuite
     }
 }
 
-class StringTestSuite
+class StringTests
 {
     Begin()
     {
@@ -86,32 +87,32 @@ class StringTestSuite
         this.b := "cdef"
     }
     
-    Test_Concat()
+    Concat()
     {
-        Yunit.assert(this.a . this.b == "abccdef")
+        Yunit.that("abccdef", this.a . this.b)
     }
     
-    Test_Substring()
+    Substring()
     {
-        Yunit.assert(SubStr(this.b, 2, 2) == "de")
+        Yunit.that("de", SubStr(this.b, 2, 2))
     }
     
-    Test_InStr()
+    InStr()
     {
-        Yunit.assert(InStr(this.a, "c") == 3)
+        Yunit.that(3, InStr(this.a, "c"))
     }
     
-    Test_ExpectedException_Success()
+    ExpectedException_Success()
     {
         this.ExpectedException := Exception("SomeCustomException")
         if SubStr(this.a, 3, 1) == SubStr(this.b, 1, 1)
             throw Exception("SomeCustomException")
     }
     
-    Test_ExpectedException_Fail()
+    ExpectedException_Fail()
     {
         this.ExpectedException := "fubar"
-        Yunit.assert(this.a != this.b)
+        Yunit.that(this.a, this.b)
         ; no exception thrown!
     }
     
