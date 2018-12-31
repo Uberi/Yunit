@@ -24,7 +24,9 @@ function Run-AllTests($path, $match) {
 function Run-TestFile($file) {
 	Push-Location $file.Directory.FullName
 
-	$test = & $config.autohotkeyPath $file.FullName
+	$test = & $config.autohotkeyPath $file.FullName | Out-String
+	$test = $test.Trim()
+
 	$arr = $test -split "`n"
 
 	$write.info("`nFile: $file")
