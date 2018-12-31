@@ -3,9 +3,9 @@ param (
 	[string]$path = $(Get-Location),
 	[string]$file = "*Tests.ahk",
 	[bool]$monitor = $true,
-	[string]$autohotkeyExe = "Autohotkey" # assumes it's in $env:PATH
-	# [string]autohotkey='C:\Program Files\AutoHotkey\AutoHotkey.exe'
- )
+	# [string]$autohotkeyExe = "Autohotkey" # assumes it's in $env:PATH
+	[string]$autohotkeyExe = 'C:\Program Files\AutoHotkey\AutoHotkey.exe'
+)
 
 # Example output
 # *****************
