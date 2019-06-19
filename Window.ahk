@@ -4,10 +4,10 @@ class YunitWindow
 	{
 		global YunitWindowTitle, YunitWindowEntries, YunitWindowStatusBar
 		width := 500
-		height := 800
+		height := 400
 		MyGui := GuiCreate(,"YUnit Output")
-		MyGui.SetFont("s16, Arial")
-		MyGui.Add("Text", "x0 y0 h30 vYunitWindowTitle Center", "Test Results")
+		MyGui.SetFont("s16", Arial)
+		MyGui.Add("Text", "x10 y1 h30 vYunitWindowTitle Center", "Test Results")
 		
 		hImageList := IL_Create()
 		IL_Add(hImageList,"shell32.dll",132) ;red X
@@ -23,7 +23,8 @@ class YunitWindow
 		MyGui.SetFont("s8")
 		MyGui.Add("StatusBar","vYunitWindowStatusBar -Theme BackgroundGreen")
 		MyGui.Options("+Resize +MinSize320x200")
-		MyGui.Show("w" . width . " h" . height, "Yunit Testing")
+                MyGui.Title := "Yunit Testing"
+		MyGui.Show("w" . width . " h" . height)
 		MyGui.Options("+LastFound")
 		
 		MyGui.OnEvent("Close", "YUnit_OnClose") 
