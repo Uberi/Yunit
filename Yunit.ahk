@@ -2,8 +2,6 @@
 
 class Yunit
 {
-    static Modules := [Yunit.StdOut]
-    
     class Tester extends Yunit
     {
         __New(Modules)
