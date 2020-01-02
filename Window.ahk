@@ -22,17 +22,17 @@ class YunitWindow
 		
 		MyGui.SetFont("s8")
 		MyGui.Add("StatusBar","vYunitWindowStatusBar -Theme BackgroundGreen")
-		MyGui.Options("+Resize +MinSize320x200")
+		MyGui.Opt("+Resize +MinSize320x200")
                 MyGui.Title := "Yunit Testing"
 		MyGui.Show("w" . width . " h" . height)
-		MyGui.Options("+LastFound")
+		MyGui.Opt("+LastFound")
 		
 		MyGui.OnEvent("Close", "YUnit_OnClose") 
 		MyGui.OnEvent("Size", "YUnit_OnSize") 
 		
 		this.gui := MyGui
 		
-		this.Categories := {}
+		this.Categories := Map()
 		this.tests := {}
 		this.tests.pass := 0
 		this.tests.fail := 0
@@ -41,7 +41,7 @@ class YunitWindow
 	
 	Update(Category, TestName, Result)
 	{
-		If !this.Categories.HasKey(Category)
+		If !this.Categories.Has(Category)
 			this.AddCategories(Category)
 		Parent := this.Categories[Category]
 		If IsObject(result)
@@ -50,7 +50,7 @@ class YunitWindow
 			hChildNode := this.tv.Add(TestName,Parent,this.icons.fail)
 			str := "Line #" result.line ": " result.message " (" result.file ")"
 			this.tv.Add(str,hChildNode,this.icons.detail)
-			this.gui.Control["YunitWindowStatusBar"].Opt("+BackgroundRed")
+			this.gui["YunitWindowStatusBar"].Opt("+BackgroundRed")
 			key := category
 			pos := 1
 			while (pos)
@@ -67,7 +67,7 @@ class YunitWindow
 			this.tv.Add(TestName,Parent,this.icons.pass)
 		}
 		str := "Number of tests: " . this.tests.fail + this.tests.pass . " ( " . this.tests.fail . " failed / " . this.tests.pass . " passed)"
-		this.gui.Control["YunitWindowStatusBar"].text := str
+		this.gui["YunitWindowStatusBar"].text := str
 		this.tv.Modify(this.tv.GetNext(), "VisFirst")   ;// scroll the treeview back to the top
 	}
 	
@@ -79,7 +79,7 @@ class YunitWindow
 		for k,v in Categories_Array
 		{
 			Category .= (Category == "" ? "" : ".") v
-			If (!this.Categories.HasKey(Category))
+			If (!this.Categories.Has(Category))
 				this.Categories[Category] := this.tv.Add(v, Parent, this.icons.pass)
 			Parent := this.Categories[Category]
 		}
@@ -93,7 +93,7 @@ YUnit_OnClose(Gui) {
 YUnit_OnSize(MyGui, EventInfo, Width, Height) {
   MyGui.Control["YunitWindowTitle"].Move("w" . Width)
   MyGui.Control["YunitWindowEntries"].Move("w" . (Width - 20) . " h" . (Height - 60))
-  MyGui.Options("+LastFound")
+  MyGui.Opt("+LastFound")
   DllCall("user32.dll\InvalidateRect", "uInt", WinExist(), "uInt", 0, "uInt", 1)
   Return
 }

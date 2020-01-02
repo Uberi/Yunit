@@ -13,7 +13,7 @@ class YunitJUnit{
         if FileExist(this.filename) {
             FileDelete this.filename
         }
-				this.out := {}
+				this.out := Array()
 				this.tests := {}
         this.tests.pass := 0
         this.tests.fail := 0
@@ -29,7 +29,7 @@ class YunitJUnit{
 				file.write(msg . "`n")
 				msg := '`t<testsuite failures=' . this.tests.fail . ' tests=' . this.tests.overall . ' name="AHK_YUnit">'
 				file.write(msg . "`n")
-				Loop this.out.Length()
+				Loop this.out.Length
 					file.write(this.out[A_Index] . "`n")
         file.write("`t</testsuite>`n")
 				file.write("</testsuites>`n")

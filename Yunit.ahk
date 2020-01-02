@@ -12,19 +12,19 @@ class Yunit
     
     static Use(Modules*)
     {
-        return new this.Tester(Modules)
+        return this.Tester.new(Modules)
     }
     
     New(p*) => (o := {base: this}, o.__new(p*), o)
     
     Test(classes*) ; static method
     {
-        instance := new this("")
+        instance := this.new("")
         instance.results := Map()
         instance.classes := classes
         instance.Modules := Array()
         for module in instance.base.Modules
-            instance.Modules.Push(new module(instance))
+            instance.Modules.Push(module.new(instance))
         for cls in classes
         {
             instance.current := A_Index
@@ -41,7 +41,7 @@ class Yunit
     
     TestClass(results, cls)
     {
-        environment := new cls() ; calls __New
+        environment := cls.new() ; calls __New
         for k,v in cls.prototype.OwnMethods()
         {
             if (k = "Begin") or (k = "End") or (k = "__New") or (k == "__Delete")

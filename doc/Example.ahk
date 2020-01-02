@@ -32,8 +32,8 @@ class NumberTestSuite
     
     End()
     {
-        this.Delete("x")
-        this.Delete("y")
+        this.DeleteProp("x")
+        this.DeleteProp("y")
     }
     
     class Negatives
@@ -72,8 +72,8 @@ class NumberTestSuite
 
         End()
         {
-            this.Delete("x")
-            this.Delete("y")
+            this.DeleteProp("x")
+            this.DeleteProp("y")
         }
     }
 }
@@ -117,7 +117,7 @@ class StringTestSuite
     
     End()
     {
-        this.Delete("a")
-        this.Delete("b")
+        this.DeleteProp("a")
+        this.DeleteProp("b")
     }
 }

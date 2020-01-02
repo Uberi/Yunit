@@ -1,5 +1,9 @@
 class YunitStdOut
 {
+    __new(instance)
+    {
+    }
+
     Update(Category, Test, Result) ;wip: this only supports one level of nesting?
     {
         if IsObject(Result)
