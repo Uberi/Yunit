@@ -44,7 +44,7 @@ class Yunit
         environment := new cls() ; calls __New
         for k,v in cls.prototype.OwnMethods()
         {
-            if (k = "Begin") or (k = "End")
+            if (k = "Begin") or (k = "End") or (k = "__New") or (k == "__Delete")
                 continue
             if environment.HasMethod("Begin") 
                 environment.Begin()
