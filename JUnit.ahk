@@ -25,9 +25,9 @@ class YunitJUnit{
     __Delete() {
 				file := FileOpen(this.filename, "w")
 				file.write('<?xml version="1.0" encoding="UTF-8"?>`n')
-				msg := "<testsuites failures=" . this.tests.fail . " tests=" . this.tests.overall . ">"
+				msg := '<testsuites failures="' . this.tests.fail . '" tests="' . this.tests.overall . '">'
 				file.write(msg . "`n")
-				msg := '`t<testsuite failures=' . this.tests.fail . ' tests=' . this.tests.overall . ' name="AHK_YUnit">'
+				msg := '`t<testsuite failures="' . this.tests.fail . '" tests="' . this.tests.overall . '" name="AHK_YUnit">'
 				file.write(msg . "`n")
 				Loop this.out.Length
 					file.write(this.out[A_Index] . "`n")
