@@ -41,7 +41,8 @@ class YunitJUnit{
     {		
 				this.tests.overall := this.tests.overall + 1
 				msg := '`t`t<testcase name="' . TestName . '" classname="' . Category . '"'
-        If IsObject(Result) {
+        if Result is Error
+        {
 					this.out.Push(msg . ">")
 					this.tests.fail := this.tests.fail + 1
           msg := "Line #" result.line ": " result.message

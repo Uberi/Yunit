@@ -1,4 +1,4 @@
-;#NoEnv
+#Requires AutoHotkey v2.0-beta.1
 
 class Yunit
 {
@@ -12,7 +12,7 @@ class Yunit
     
     static Use(Modules*)
     {
-        return this.Tester.new(Modules)
+        return (this.Tester)(Modules)
     }
     
     New(p*) => (o := {base: this}, o.__new(p*), o)
@@ -24,7 +24,7 @@ class Yunit
         instance.classes := classes
         instance.Modules := Array()
         for module in instance.base.Modules
-            instance.Modules.Push(module.new(instance))
+            instance.Modules.Push(module(instance))
         for cls in classes
         {
             instance.current := A_Index
@@ -41,9 +41,11 @@ class Yunit
     
     TestClass(results, cls)
     {
-        environment := cls.new() ; calls __New
-        for k,v in cls.prototype.OwnMethods()
+        environment := cls() ; calls __New
+        for k in cls.prototype.OwnProps()
         {
+            if !(cls.prototype.%k% is Func)
+                continue
             if (k = "Begin") or (k = "End") or (k = "__New") or (k == "__Delete")
                 continue
             if environment.HasMethod("Begin") 
@@ -51,18 +53,18 @@ class Yunit
             result := 0
             try
             {
-                %v%(environment)
+                environment.%k%()
                 if ObjHasOwnProp(environment, "ExpectedException")
-                    throw Exception("ExpectedException")
+                    throw Error("ExpectedException")
             }
-            catch error
+            catch Error as err
             {
                 if !ObjHasOwnProp(environment, "ExpectedException")
-                || !this.CompareValues(environment.ExpectedException, error)
-                    result := error
+                || !this.CompareValues(environment.ExpectedException, err)
+                    result := err
             }
             results[k] := result
-            ObjDeleteProp(environment, "ExpectedException")
+            environment.DeleteProp("ExpectedException")
             this.Update(cls.prototype.__class, k, results[k])
             if environment.HasMethod("End")
                 environment.End()
@@ -79,7 +81,7 @@ class Yunit
         catch
             Message := "FAIL"
         if (!Value)
-            throw Exception(Message, -2)
+            throw Error(Message, -2)
     }
     
     CompareValues(v1, v2)

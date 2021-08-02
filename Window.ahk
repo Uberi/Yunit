@@ -5,8 +5,8 @@ class YunitWindow
 		global YunitWindowTitle, YunitWindowEntries, YunitWindowStatusBar
 		width := 500
 		height := 400
-		MyGui := GuiCreate(,"YUnit Output")
-		MyGui.SetFont("s16", Arial)
+		MyGui := Gui(,"YUnit Output")
+		MyGui.SetFont("s16", "Arial")
 		MyGui.Add("Text", "x10 y1 h30 vYunitWindowTitle Center", "Test Results")
 		
 		hImageList := IL_Create()
@@ -27,8 +27,8 @@ class YunitWindow
 		MyGui.Show("w" . width . " h" . height)
 		MyGui.Opt("+LastFound")
 		
-		MyGui.OnEvent("Close", "YUnit_OnClose") 
-		MyGui.OnEvent("Size", "YUnit_OnSize") 
+		MyGui.OnEvent("Close", YUnit_OnClose) 
+		MyGui.OnEvent("Size", YUnit_OnSize) 
 		
 		this.gui := MyGui
 		
@@ -44,7 +44,7 @@ class YunitWindow
 		If !this.Categories.Has(Category)
 			this.AddCategories(Category)
 		Parent := this.Categories[Category]
-		If IsObject(result)
+		if Result is Error
 		{
 			this.tests.fail := this.tests.fail + 1
 			hChildNode := this.tv.Add(TestName,Parent,this.icons.fail)
@@ -56,7 +56,7 @@ class YunitWindow
 			while (pos)
 			{
 				this.tv.Modify(this.Categories[key], "Expand " this.icons.issue)
-				pos := InStr(key, ".", false, (A_AhkVersion < "2") ? 0 : -1, 1)
+				pos := InStr(key, ".", false, (VerCompare(A_AhkVersion, "2.0-a033") < 0) ? 0 : -1)
 				key := SubStr(key, 1, pos-1)
 			}
 			this.tv.Modify(Parent, "Expand")

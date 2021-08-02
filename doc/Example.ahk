@@ -4,7 +4,7 @@
 #Include ..\JUnit.ahk
 #Include ..\OutputDebug.ahk
 
-Yunit.Use(YunitStdOut, YunitWindow, YunitJUnit, YunitOutputDebug).Test(NumberTestSuite, StringTestSuite)
+Yunit.Use(YunitWindow, YunitJUnit, YunitOutputDebug).Test(NumberTestSuite, StringTestSuite)
 
 class NumberTestSuite
 {
@@ -103,9 +103,9 @@ class StringTestSuite
     
     Test_ExpectedException_Success()
     {
-        this.ExpectedException := Exception("SomeCustomException")
+        this.ExpectedException := Error("SomeCustomException")
         if SubStr(this.a, 3, 1) == SubStr(this.b, 1, 1)
-            throw Exception("SomeCustomException")
+            throw Error("SomeCustomException")
     }
     
     Test_ExpectedException_Fail()
