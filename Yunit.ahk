@@ -80,7 +80,7 @@ class Yunit
     {
         Message := (params[1] = "") ? "FAIL" : params[1]
         if (!Value)
-            throw Exception(Message, -2)
+            throw Exception(Message, -1)
     }
     
     CompareValues(v1, v2)
